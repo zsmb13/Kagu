@@ -1,0 +1,27 @@
+group 'co.zsmb'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin2js'
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+
+    if (devMode.toBoolean()) {
+        compile project(":weblibProject")
+        compile project(":externalProject")
+    } else {
+        compile "co.zsmb:koinjs:0.1.0"
+        compile "co.zsmb:weblib:0.0.1"
+        compile "co.zsmb.example:external:0.1.0"
+    }
+}
+
+ext.rootPackage = "co.zsmb.webmain"
+
+apply from: "helper.gradle"

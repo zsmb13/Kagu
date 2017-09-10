@@ -1,0 +1,88 @@
+def rootPckg = rootPackage.replace('.', '/')
+
+compileKotlin2Js {
+    kotlinOptions {
+        sourceMap = true
+        outputFile = "${buildDir}/app.js"
+        suppressWarnings = true
+        verbose = true
+    }
+}
+
+clean.doFirst {
+    delete webDir
+}
+
+build.doLast {
+
+    // copies app.js into webdir
+    copy {
+        from compileKotlin2Js.kotlinOptions.outputFile
+        into "${webDir}"
+    }
+
+    // copies own .html and .css files into webdir
+    copy {
+        includeEmptyDirs = false
+
+        from("$projectDir/src/main/kotlin/$rootPckg") {
+            include '**/*.html'
+            include '**/*.css'
+        }
+        into "$webDir"
+    }
+
+    // copies own js dependencies into webdir/js
+    copy {
+        includeEmptyDirs = false
+
+        from("$projectDir/src/main/js") {
+            include '**/*.js'
+        }
+        from("$projectDir/lib") {
+            include '**/*.js'
+        }
+        into "$webDir/js"
+    }
+
+    // process dependencies
+    configurations.compile.each { File file ->
+
+        println "getting dependency ${file.name}"
+
+        def isModule = false
+        zipTree(file.absolutePath).visit { FileVisitDetails details ->
+            if(details.file.name == "module-marker") {
+                isModule = true
+            }
+        }
+
+        println "is module: ${isModule}"
+
+        if(isModule) {
+            // copy module contents (js, html) to webdir/components
+            copy {
+                includeEmptyDirs = false
+
+                from(zipTree(file.absolutePath)) {
+                    include "**/*.js"
+                    include "**/*.html"
+                }
+                into "$webDir/components"
+            }
+        } else {
+            // copy any non-module dependency's contents (js) to webdir/js
+            copy {
+                includeEmptyDirs = false
+
+                from zipTree(file.absolutePath)
+                into "$webDir/js"
+                include { fileTreeElement ->
+                    def path = fileTreeElement.path
+                    path.endsWith(".js")
+                }
+            }
+        }
+    }
+}
+

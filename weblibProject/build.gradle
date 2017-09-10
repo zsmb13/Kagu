@@ -1,0 +1,82 @@
+buildscript {
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin2js'
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "co.zsmb:koinjs:0.1.0"
+}
+
+
+def outDir = "$buildDir/kotlin2js/main"
+
+compileKotlin2Js {
+    kotlinOptions {
+        outputFile = "$outDir/weblib.js"
+        sourceMap = true
+    }
+}
+
+def rootPackage = "co.zsmb.weblib"
+def rootPckg = rootPackage.replace('.', '/')
+
+
+// Local deployment vars
+def weblib_version = "0.0.1"
+def moduleName = "weblibProject"
+def targetDir = "${project.property('localRepository')}/$rootPckg/$weblib_version"
+
+
+// Sources
+task jarSources(type: Jar) {
+    from(sourceSets.main.allSource) {
+        include "**/*.kt"
+    }
+    classifier = 'source'
+}
+
+jarSources {
+    if (!devMode.toBoolean()) {
+        doLast {
+            new File(targetDir).mkdirs()
+            copy {
+                from "$buildDir/libs/${moduleName}-source.jar"
+                into targetDir
+                rename "${moduleName}-source.jar", "weblib-${weblib_version}-sources.jar"
+            }
+        }
+    }
+}
+
+artifacts {
+    archives jarSources
+}
+
+
+// Library
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes(
+                "Specification-Title": "Kagu web framework",
+                "Kotlin-JS-Module-Name": "Kagu"
+        )
+    }
+
+    if (!devMode.toBoolean()) {
+        doLast {
+            new File(targetDir).mkdirs()
+
+            copy {
+                from "$buildDir/libs/${moduleName}.jar"
+                into targetDir
+                rename "${moduleName}.jar", "weblib-${weblib_version}.jar"
+            }
+        }
+    }
+}

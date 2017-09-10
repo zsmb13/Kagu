@@ -1,0 +1,91 @@
+// Build configuration
+def outDir = "${buildDir}/kotlin2js/main"
+
+compileKotlin2Js {
+    kotlinOptions {
+        outputFile = "$outDir/external.js"
+        sourceMap = true
+    }
+}
+
+def rootPckg = rootPackage.replace('.', '/')
+
+
+// Local deployment vars
+def external_version = "0.1.0"
+def moduleName = "externalProject"
+def targetDir = "${project.property('localRepository')}/$rootPckg/$external_version"
+
+
+// Marker for module identification
+File marker = new File("${projectDir}/src/main/kotlin/${rootPckg}/module-marker")
+
+build {
+    doLast {
+        marker.delete()
+    }
+}
+
+
+// Sources
+task jarSources(type: Jar) {
+    from(sourceSets.main.allSource) {
+        include "**/*.kt"
+    }
+    classifier = 'source'
+}
+
+jarSources {
+    if (!devMode.toBoolean()) {
+        doLast {
+            new File(targetDir).mkdirs()
+            copy {
+                from "$buildDir/libs/${moduleName}-source.jar"
+                into targetDir
+                rename "${moduleName}-source.jar", "external-${external_version}-sources.jar"
+            }
+        }
+    }
+}
+
+artifacts {
+    archives jarSources
+}
+
+
+// Library
+jar {
+    doFirst {
+        marker.createNewFile()
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from("${projectDir}/src/main/kotlin/${rootPckg}") {
+        include "**/*.html"
+        include "module-marker"
+    }
+
+    from(outDir) {
+        include "**/*"
+    }
+
+    manifest {
+        attributes(
+                "Specification-Title": "spec title of ext project",
+                "Kotlin-JS-Module-Name": "module name of ext project"
+        )
+    }
+
+    if (!devMode.toBoolean()) {
+        doLast {
+            new File(targetDir).mkdirs()
+
+            copy {
+                from "$buildDir/libs/${moduleName}.jar"
+                into targetDir
+                rename "${moduleName}.jar", "external-${external_version}.jar"
+            }
+        }
+    }
+}
