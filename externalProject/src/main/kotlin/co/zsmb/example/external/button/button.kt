@@ -1,8 +1,8 @@
 package co.zsmb.example.external.button
 
 import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.Controller
-import co.zsmb.weblib.core.lookup
+import co.zsmb.weblib.core.controller.Controller
+import co.zsmb.weblib.core.controller.lookup
 import org.w3c.dom.HTMLButtonElement
 import kotlin.js.Date
 

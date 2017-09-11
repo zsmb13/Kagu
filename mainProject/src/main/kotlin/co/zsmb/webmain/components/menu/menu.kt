@@ -1,7 +1,7 @@
 package co.zsmb.webmain.components.menu
 
 import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.Controller
+import co.zsmb.weblib.core.controller.Controller
 
 class MenuComponent : Component(
         selector = "menu-component",

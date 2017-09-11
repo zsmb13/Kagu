@@ -1,10 +1,10 @@
 package co.zsmb.webmain.components.testButtons
 
 import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.Controller
-import co.zsmb.weblib.core.lookup
-import co.zsmb.weblib.di.Logger
+import co.zsmb.weblib.core.controller.Controller
+import co.zsmb.weblib.core.controller.lookup
 import co.zsmb.weblib.di.inject
+import co.zsmb.weblib.di.logging.Logger
 import co.zsmb.webmain.services.HttpTestService
 import org.w3c.dom.HTMLButtonElement
 import kotlin.browser.window
