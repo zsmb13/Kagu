@@ -1,4 +1,4 @@
 rootProject.name = 'Kagu'
-include 'mainProject'
 include 'weblibProject'
 include 'externalProject'
+include 'mainProject'
