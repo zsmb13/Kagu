@@ -13,7 +13,7 @@ object Router {
         println("Current location hash: ${window.location.hash}")
     }
 
-    val states = mutableMapOf<String, () -> Component>()
+    val states = mutableMapOf<String, Component>()
 
     fun getHash() = window.location.hash
 
@@ -44,18 +44,18 @@ object Router {
 
     fun init(states: MutableSet<State>) {
         states.forEach {
-            this.states[it.name] = it.component
+            this.states[it.path] = it.component
         }
     }
 
     fun recognizesRoute() = states.containsKey(getRoute())
 
     fun getAppElement(): Element {
-        val tempComponent = states[getRoute()]!!.invoke()
+        val tempComponent = states.getOrElse(getRoute()) { throw IllegalStateException("No such component") }
         return createElement(tempComponent.selector)
     }
 
-    fun createElement(selector: String): Element {
+    private fun createElement(selector: String): Element {
         val html = "<$selector></$selector>"
         return jq.parseHTML(html)[0] as Element
     }

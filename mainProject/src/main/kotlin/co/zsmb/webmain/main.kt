@@ -11,19 +11,29 @@ import co.zsmb.webmain.modules.MyModule
 fun main(args: Array<String>) = application {
 
     modules {
-        +::MyModule
+        +MyModule
     }
 
     components {
-        +::UserComponent
-        +::MenuComponent
-        +::ButtonComponent
-        +::TestButtonsComponent
+        +UserComponent
+        +MenuComponent
+        +ButtonComponent
+        +TestButtonsComponent
     }
 
-    states {
-        "/user/:id" with ::UserComponent
-        "/button" with ::ButtonComponent
+    routing {
+        state {
+            path = "/user/:id"
+            handler = UserComponent
+        }
+        state {
+            path = "/secondButton"
+            handler = ButtonComponent
+        }
+        defaultState {
+            path = "/button"
+            handler = ButtonComponent
+        }
     }
 
     afterInit {

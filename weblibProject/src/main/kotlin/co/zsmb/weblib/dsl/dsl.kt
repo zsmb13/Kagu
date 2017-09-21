@@ -26,19 +26,19 @@ class SetupRoot {
     fun components(setup: ComponentCollection.() -> Unit) {
         val collection = ComponentCollection()
         collection.setup()
-        components += collection.parts.map { it.invoke() }
+        components += collection.get()
     }
 
     fun modules(setup: ModuleCollection.() -> Unit) {
         val collection = ModuleCollection()
         collection.setup()
-        modules += collection.parts.map { it.invoke() }
+        modules += collection.get()
     }
 
-    fun states(setup: StateCollection.() -> Unit) {
+    fun routing(setup: StateCollection.() -> Unit) {
         val collection = StateCollection()
         collection.setup()
-        states += collection.states
+        states += collection.get()
     }
 
     private val afterInitActions = mutableListOf<() -> Unit>()
@@ -67,18 +67,55 @@ class SetupRoot {
 
 }
 
-data class State(val name: String, val component: () -> Component)
-
-class StateCollection {
-    internal val states = mutableSetOf<State>()
-    infix fun String.with(component: () -> Component) {
-        states.add(State(this, component))
-    }
-}
+data class State(val path: String, val component: Component)
 
 class PartCollection<T> internal constructor() {
-    internal val parts = mutableSetOf<() -> T>()
-    operator fun (() -> T).unaryPlus() {
+
+    private val parts = mutableSetOf<T>()
+
+    operator fun T.unaryPlus() {
         parts += this
     }
+
+    internal fun get() = parts
+
+}
+
+class StateBuilder internal constructor() {
+
+    var path: String? = null
+    var handler: Component? = null
+
+    internal fun build(): State {
+        return State(
+                path ?: throw IllegalStateException("path not inited"),
+                handler ?: throw IllegalStateException("path not inited")
+        )
+    }
+
+}
+
+class StateCollection internal constructor() {
+
+    private val states = mutableSetOf<State>()
+    private var hasDefault = false
+
+    fun state(setup: StateBuilder.() -> Unit) {
+        val stateBuilder = StateBuilder()
+        stateBuilder.setup()
+        states += stateBuilder.build()
+    }
+
+    fun defaultState(setup: StateBuilder.() -> Unit) {
+        state(setup)
+        hasDefault = true
+    }
+
+    internal fun get(): Set<State> {
+        if (!hasDefault) {
+            throw IllegalStateException("no default state in routing setup")
+        }
+        return states
+    }
+
 }

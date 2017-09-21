@@ -6,7 +6,7 @@ import co.zsmb.weblib.core.controller.lookup
 import org.w3c.dom.HTMLButtonElement
 import kotlin.js.Date
 
-class ButtonComponent : Component(
+object ButtonComponent : Component(
         selector = "special-button",
         templateUrl = "components/button/button.html",
         controller = ::ButtonController

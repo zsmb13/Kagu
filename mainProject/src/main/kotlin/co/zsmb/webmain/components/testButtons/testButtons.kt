@@ -9,7 +9,7 @@ import co.zsmb.webmain.services.HttpTestService
 import org.w3c.dom.HTMLButtonElement
 import kotlin.browser.window
 
-class TestButtonsComponent : Component(
+object TestButtonsComponent : Component(
         selector = "test-buttons",
         templateUrl = "components/testButtons/testButtons.html",
         controller = ::TestButtonsController
