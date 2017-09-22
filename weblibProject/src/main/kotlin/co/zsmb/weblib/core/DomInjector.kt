@@ -15,7 +15,7 @@ object DomInjector {
         this.compsMap = compsMap
     }
 
-    fun injectComponents(node: Node) {
+    fun injectComponentsAsync(node: Node) {
 
         println("injecting node: ${node.nodeName}")
 

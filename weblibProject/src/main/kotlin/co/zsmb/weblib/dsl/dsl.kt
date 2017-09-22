@@ -2,11 +2,10 @@ package co.zsmb.weblib.dsl
 
 import co.zsmb.koinjs.dsl.module.Module
 import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.init
+import co.zsmb.weblib.core.initAsync
 import co.zsmb.weblib.di.TheKoin
 import co.zsmb.weblib.di.logging.LoggerModule
 import co.zsmb.weblib.routing.Router
-
 
 inline fun application(setup: SetupRoot.() -> Unit) {
     val root = SetupRoot()
@@ -22,6 +21,7 @@ class SetupRoot {
     private val components = mutableSetOf<Component>()
     private val modules = mutableSetOf<Module>()
     private val states = mutableSetOf<State>()
+    private lateinit var defaultState: State
 
     fun components(setup: ComponentCollection.() -> Unit) {
         val collection = ComponentCollection()
@@ -38,7 +38,10 @@ class SetupRoot {
     fun routing(setup: StateCollection.() -> Unit) {
         val collection = StateCollection()
         collection.setup()
-        states += collection.get()
+
+        val (states, defaultState) = collection.get()
+        this.states += states
+        this.defaultState = defaultState
     }
 
     private val afterInitActions = mutableListOf<() -> Unit>()
@@ -55,10 +58,10 @@ class SetupRoot {
         // MODULES
         addDefaultModules()
         TheKoin.init(modules)
-        Router.init(states)
+        Router.init(states, defaultState)
 
         // COMPONENTS
-        init(components) {
+        initAsync(components) {
 
             // AFTER INIT
             afterInitActions.forEach { it.invoke() }
@@ -88,8 +91,8 @@ class StateBuilder internal constructor() {
 
     internal fun build(): State {
         return State(
-                path ?: throw IllegalStateException("path not inited"),
-                handler ?: throw IllegalStateException("path not inited")
+                path ?: throw IllegalStateException("State path not inited"),
+                handler ?: throw IllegalStateException("State handler not inited")
         )
     }
 
@@ -97,7 +100,10 @@ class StateBuilder internal constructor() {
 
 class StateCollection internal constructor() {
 
+    private lateinit var defaultState: State
+
     private val states = mutableSetOf<State>()
+
     private var hasDefault = false
 
     fun state(setup: StateBuilder.() -> Unit) {
@@ -107,15 +113,25 @@ class StateCollection internal constructor() {
     }
 
     fun defaultState(setup: StateBuilder.() -> Unit) {
-        state(setup)
+        if (hasDefault) {
+            throw IllegalStateException("Default state is already set")
+        }
+
+        val stateBuilder = StateBuilder()
+        stateBuilder.setup()
+
+        val state = stateBuilder.build()
+        defaultState = state
+        states += state
+
         hasDefault = true
     }
 
-    internal fun get(): Set<State> {
+    internal fun get(): Pair<Set<State>, State> {
         if (!hasDefault) {
-            throw IllegalStateException("no default state in routing setup")
+            throw IllegalStateException("No default state set in routing setup")
         }
-        return states
+        return Pair(states, defaultState)
     }
 
 }

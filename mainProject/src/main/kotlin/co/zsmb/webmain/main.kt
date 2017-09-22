@@ -7,7 +7,6 @@ import co.zsmb.webmain.components.testButtons.TestButtonsComponent
 import co.zsmb.webmain.components.user.UserComponent
 import co.zsmb.webmain.modules.MyModule
 
-
 fun main(args: Array<String>) = application {
 
     modules {
@@ -23,7 +22,7 @@ fun main(args: Array<String>) = application {
 
     routing {
         state {
-            path = "/user/:id"
+            path = "/user"
             handler = UserComponent
         }
         state {

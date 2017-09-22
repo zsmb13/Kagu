@@ -29,6 +29,23 @@ fun Node.visitSubtreeThat(predicate: (Node) -> Boolean, action: (Node) -> Unit) 
     }
 }
 
+fun Node.findFirstNodeThat(predicate: (Node) -> Boolean): Node? {
+    if (predicate(this)) return this
+
+    this.childNodes.forEach {
+        if (predicate(it)) {
+            return it
+        }
+
+        val result = it.findFirstNodeThat(predicate)
+        if (result != null) {
+            return result
+        }
+    }
+
+    return null
+}
+
 fun Node.visitChildrenThat(predicate: (Node) -> Boolean, action: (Node) -> Unit) {
     this.childNodes.forEach {
         if (predicate(it)) {
