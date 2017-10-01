@@ -1,7 +1,7 @@
 buildscript {
     ext.kotlin_version = '1.1.51'
     ext.webDir = "${rootDir}/web"
-    ext.devMode = project.property("devMode").toBoolean()
+    ext.devMode = project.hasProperty("devMode") ? project.property("devMode").toBoolean() : true
 }
 
 allprojects {
