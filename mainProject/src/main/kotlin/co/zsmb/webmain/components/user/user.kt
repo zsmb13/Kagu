@@ -11,7 +11,7 @@ object UserComponent : Component(
 
 class UserController : Controller() {
 
-    override fun onInit() {
+    override fun onCreate() {
         println("UserController init")
     }
 

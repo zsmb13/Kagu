@@ -6,6 +6,12 @@ abstract class Controller {
 
     lateinit var root: Element
 
-    open fun onInit() {}
+    open fun onCreate() {}
+
+    open fun onAdded() {}
+
+    open fun onRemoved() {}
+
+    open fun onDestroy() {}
 
 }

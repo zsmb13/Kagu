@@ -14,12 +14,7 @@ class LookupDelegate<T>(id: String, ctrl: Controller) {
         val context = jq.select(ctrl.root)
         val query = "[data-kt-id='$id']"
 
-        println("root " + ctrl.root)
-        println("context " + context)
-
         val result = jq.select(query, context)
-
-        println(result.length)
 
         result[0]!! as T
     }

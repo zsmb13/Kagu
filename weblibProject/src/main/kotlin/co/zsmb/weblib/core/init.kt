@@ -9,7 +9,7 @@ private fun onLoad(actions: (Event) -> Unit) {
     window.onload = actions
 }
 
-fun initAsync(comps: Set<Component>, after: () -> Unit) = onLoad {
+fun initAsync(comps: Set<Component>, afterInitActions: () -> Unit) = onLoad {
 
     Router.cleanUrl()
 
@@ -24,6 +24,6 @@ fun initAsync(comps: Set<Component>, after: () -> Unit) = onLoad {
 
     Router.refresh()
 
-    after()
+    afterInitActions()
 
 }

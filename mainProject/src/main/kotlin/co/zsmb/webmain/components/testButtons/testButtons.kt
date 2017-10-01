@@ -24,7 +24,7 @@ class TestButtonsController : Controller() {
 
     val poService by inject<HttpTestService>()
 
-    override fun onInit() {
+    override fun onCreate() {
         println("TestButtonsController init")
 
         fetch.onclick = {

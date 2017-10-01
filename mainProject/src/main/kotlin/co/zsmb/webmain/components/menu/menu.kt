@@ -11,7 +11,7 @@ object MenuComponent : Component(
 
 class MenuController : Controller() {
 
-    override fun onInit() {
+    override fun onCreate() {
         println("MenuController init")
 
     }
