@@ -12,8 +12,8 @@ def rootPckg = rootPackage.replace('.', '/')
 
 
 // Local deployment vars
-def external_version = "0.1.0"
-def moduleName = "externalProject"
+def external_version = '0.1.0'
+def moduleName = 'externalProject'
 def localRepo = project.hasProperty('localRepository') ? localRepository : '.'
 def targetDir = "$localRepo/$rootPckg/$external_version"
 
@@ -31,7 +31,7 @@ build {
 // Sources
 task jarSources(type: Jar) {
     from(sourceSets.main.allSource) {
-        include "**/*.kt"
+        include '**/*.kt'
     }
     classifier = 'source'
 }
@@ -63,18 +63,19 @@ jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     from("${projectDir}/src/main/kotlin/${rootPckg}") {
-        include "**/*.html"
-        include "module-marker"
+        include '**/*.html'
+        include '**/*.css'
+        include 'module-marker'
     }
 
     from(outDir) {
-        include "**/*"
+        include '**/*'
     }
 
     manifest {
         attributes(
-                "Specification-Title": "spec title of ext project",
-                "Kotlin-JS-Module-Name": "module name of ext project"
+                'Specification-Title': 'spec title of ext project',
+                'Kotlin-JS-Module-Name': 'module name of ext project'
         )
     }
 

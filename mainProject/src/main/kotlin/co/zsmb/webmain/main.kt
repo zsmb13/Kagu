@@ -34,6 +34,10 @@ fun main(args: Array<String>) = application {
             path = "/button"
             handler = ButtonComponent
         }
+        state {
+            path = "/cssbuttons"
+            handler = TestButtonsComponent
+        }
         defaultState {
             path = "/links"
             handler = LinksComponent

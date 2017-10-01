@@ -25,11 +25,20 @@ build.doLast {
     copy {
         includeEmptyDirs = false
 
-        from("$projectDir/src/main/kotlin/$rootPckg") {
+        from("$projectDir/src/main/kotlin/$rootPckg/") {
             include '**/*.html'
             include '**/*.css'
+            exclude '*.css'
         }
         into "$webDir"
+    }
+
+    // copies own top level .css files into webdir/css
+    copy {
+        from("$projectDir/src/main/kotlin/$rootPckg") {
+            include "*.css"
+        }
+        into "$webDir/css"
     }
 
     // copies own js dependencies into webdir/js
@@ -60,15 +69,24 @@ build.doLast {
         println "is module: ${isModule}"
 
         if(isModule) {
-            // copy module contents (js, html) to webdir/components
+            // copy module contents (js, html, css) to webdir/components
             copy {
                 includeEmptyDirs = false
 
                 from(zipTree(file.absolutePath)) {
-                    include "**/*.js"
-                    include "**/*.html"
+                    include '**/*.js'
+                    include '**/*.html'
+                    include '**/*.css'
+                    exclude '*.css'
                 }
                 into "$webDir/components"
+            }
+            // copy top level module css to webdir/css
+            copy {
+                from(zipTree(file.absolutePath)) {
+                    include "*.css"
+                }
+                into "$webDir/css"
             }
         } else {
             // copy any non-module dependency's contents (js) to webdir/js
@@ -85,4 +103,3 @@ build.doLast {
         }
     }
 }
-
