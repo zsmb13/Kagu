@@ -28,7 +28,8 @@ def rootPckg = rootPackage.replace('.', '/')
 // Local deployment vars
 def weblib_version = "0.0.1"
 def moduleName = "weblibProject"
-def targetDir = "${project.property('localRepository')}/$rootPckg/$weblib_version"
+def localRepo = project.hasProperty('localRepository') ? localRepository : '.'
+def targetDir = "$localRepo/$rootPckg/$weblib_version"
 
 
 // Sources
