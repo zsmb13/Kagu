@@ -7,6 +7,9 @@ import co.zsmb.weblib.di.TheKoin
 import co.zsmb.weblib.di.logging.LoggerModule
 import co.zsmb.weblib.routing.Router
 
+@DslMarker
+annotation class InitDsl
+
 inline fun application(setup: SetupRoot.() -> Unit) {
     val root = SetupRoot()
     root.setup()
@@ -16,6 +19,7 @@ inline fun application(setup: SetupRoot.() -> Unit) {
 typealias ComponentCollection = PartCollection<Component>
 typealias ModuleCollection = PartCollection<Module>
 
+@InitDsl
 class SetupRoot {
 
     private val components = mutableSetOf<Component>()
@@ -72,6 +76,7 @@ class SetupRoot {
 
 data class State(val path: String, val component: Component)
 
+@InitDsl
 class PartCollection<T> internal constructor() {
 
     private val parts = mutableSetOf<T>()
@@ -84,6 +89,7 @@ class PartCollection<T> internal constructor() {
 
 }
 
+@InitDsl
 class StateBuilder internal constructor() {
 
     var path: String? = null
@@ -98,6 +104,7 @@ class StateBuilder internal constructor() {
 
 }
 
+@InitDsl
 class StateCollection internal constructor() {
 
     private lateinit var defaultState: State
