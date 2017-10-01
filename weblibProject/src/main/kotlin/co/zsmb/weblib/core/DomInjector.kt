@@ -42,7 +42,10 @@ object DomInjector {
     }
 
     private val appRoot by lazy {
-        document.findFirstNodeThat { it.nodeName == "app-root".toUpperCase() }!!
+        val root = document.findFirstNodeThat { it.nodeName == "app-root".toUpperCase() }!!
+        val newRoot = createElement("div")
+        root.replaceWith(newRoot)
+        newRoot
     }
 
     fun injectAppComponentAsync(route: String, component: Component) {
