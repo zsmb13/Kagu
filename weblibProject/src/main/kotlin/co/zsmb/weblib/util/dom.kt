@@ -1,5 +1,6 @@
 package co.zsmb.weblib.util
 
+import co.zsmb.weblib.jquery.jq
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
@@ -70,4 +71,19 @@ fun Node.visitBreadthFirst(action: (Node) -> Unit) {
 fun Node.replaceWith(replacement: Node) {
     this as Element
     this.replaceWith(replacement)
+}
+
+fun Node.removeChildren() {
+    while (hasChildNodes()) {
+        removeChild(firstChild!!)
+    }
+}
+
+operator fun Node.plusAssign(node: Node) {
+    appendChild(node)
+}
+
+fun createElement(name: String): Element {
+    val html = "<$name></$name>"
+    return jq.parseHTML(html)[0] as Element
 }
