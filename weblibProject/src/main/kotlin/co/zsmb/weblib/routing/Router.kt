@@ -21,6 +21,10 @@ object Router {
         refresh()
     }
 
+    fun navigateTo(route: String) {
+        setHash(route)
+    }
+
     fun refresh() {
         if (!routeIsRecognized()) {
             setHash(defaultState.path)

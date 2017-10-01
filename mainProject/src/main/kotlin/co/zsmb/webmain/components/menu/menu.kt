@@ -13,7 +13,6 @@ class MenuController : Controller() {
 
     override fun onCreate() {
         println("MenuController init")
-
     }
 
 }

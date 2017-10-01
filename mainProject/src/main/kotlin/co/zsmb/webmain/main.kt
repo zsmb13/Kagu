@@ -2,6 +2,7 @@ package co.zsmb.webmain
 
 import co.zsmb.example.external.button.ButtonComponent
 import co.zsmb.weblib.dsl.application
+import co.zsmb.webmain.components.links.LinksComponent
 import co.zsmb.webmain.components.menu.MenuComponent
 import co.zsmb.webmain.components.testButtons.TestButtonsComponent
 import co.zsmb.webmain.components.user.UserComponent
@@ -29,9 +30,13 @@ fun main(args: Array<String>) = application {
             path = "/secondButton"
             handler = ButtonComponent
         }
-        defaultState {
+        state {
             path = "/button"
             handler = ButtonComponent
+        }
+        defaultState {
+            path = "/links"
+            handler = LinksComponent
         }
     }
 
