@@ -14,7 +14,8 @@ def rootPckg = rootPackage.replace('.', '/')
 // Local deployment vars
 def external_version = "0.1.0"
 def moduleName = "externalProject"
-def targetDir = "${project.property('localRepository')}/$rootPckg/$external_version"
+def localRepo = project.hasProperty('localRepository') ? localRepository : '.'
+def targetDir = "$localRepo/$rootPckg/$external_version"
 
 
 // Marker for module identification
