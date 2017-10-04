@@ -1,9 +1,9 @@
 package co.zsmb.weblib.core.routing
 
-import co.zsmb.weblib.core.controller.Controller
+import co.zsmb.weblib.core.Controller
 import org.w3c.dom.Node
 
-object ComponentCache {
+internal object ComponentCache {
 
     private val routeToNode = mutableMapOf<String, Node>()
     private val elementToController = mutableMapOf<Node, Controller>()

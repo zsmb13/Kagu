@@ -1,25 +1,25 @@
 package co.zsmb.webmain.services
 
-import co.zsmb.weblib.core.jquery.JQueryAjaxSettings
-import co.zsmb.weblib.core.jquery.jQuery
+import co.zsmb.weblib.services.http.HttpService
 import co.zsmb.weblib.services.logging.Logger
 
-class HttpTestService(val logger: Logger) {
+class HttpTestService(val logger: Logger, val httpService: HttpService) {
+
+    companion object {
+        const val url = "https://cors-test.appspot.com/test"
+    }
 
     fun getPublicObject() {
 
-        fun getObject() = js("return {}")
+        val headers = listOf(
+                "kittens" to "three",
+                "woofers" to "five"
+        )
 
-        val settings: JQueryAjaxSettings = getObject()
-
-        val s = settings.apply {
-            this.url = "https://cors-test.appspot.com/test"
-            this.method = "GET"
+        httpService.get(url, headers) { response ->
+            logger.d(this, JSON.stringify(response))
         }
 
-        jQuery.ajax(s).done {
-            logger.d(JSON.stringify(it))
-        }
     }
 
 }

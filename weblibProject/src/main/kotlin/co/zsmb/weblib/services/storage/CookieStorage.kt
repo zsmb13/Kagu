@@ -1,6 +1,6 @@
 package co.zsmb.weblib.services.storage
 
-import co.zsmb.weblib.util.Date
+import co.zsmb.weblib.core.util.Date
 
 interface CookieStorage {
 

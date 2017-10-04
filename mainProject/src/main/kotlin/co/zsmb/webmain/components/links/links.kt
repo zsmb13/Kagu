@@ -1,7 +1,7 @@
 package co.zsmb.webmain.components.links
 
 import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.controller.Controller
+import co.zsmb.weblib.core.Controller
 
 object LinksComponent : Component(
         selector = "links-component",

@@ -1,23 +1,25 @@
-package co.zsmb.weblib.core
+package co.zsmb.weblib.core.dom
 
-import co.zsmb.weblib.core.controller.Controller
+import co.zsmb.weblib.core.Component
+import co.zsmb.weblib.core.Controller
+import co.zsmb.weblib.core.InternalLogger
+import co.zsmb.weblib.core.Selector
 import co.zsmb.weblib.core.network.TemplateLoader
 import co.zsmb.weblib.core.routing.ComponentCache
 import co.zsmb.weblib.core.routing.Router
-import co.zsmb.weblib.util.*
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.Node
 import kotlin.browser.document
 
-object DomInjector {
+internal object DomInjector {
 
     private lateinit var selectors: Set<String>
     private lateinit var compsMap: Map<Selector, Component>
 
     fun init(selectors: Set<String>, compsMap: Map<Selector, Component>) {
-        this.selectors = selectors
-        this.compsMap = compsMap
+        DomInjector.selectors = selectors
+        DomInjector.compsMap = compsMap
     }
 
     /**

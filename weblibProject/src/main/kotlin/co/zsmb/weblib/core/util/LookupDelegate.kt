@@ -1,5 +1,6 @@
-package co.zsmb.weblib.core.controller
+package co.zsmb.weblib.core.util
 
+import co.zsmb.weblib.core.Controller
 import co.zsmb.weblib.core.jquery.jq
 import kotlin.reflect.KProperty
 

@@ -2,8 +2,9 @@ package co.zsmb.weblib.core.init
 
 import co.zsmb.koinjs.dsl.module.Module
 import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.DomInjector
+import co.zsmb.weblib.core.dom.DomInjector
 import co.zsmb.weblib.core.routing.Router
+import co.zsmb.weblib.services.http.HttpServiceModule
 import co.zsmb.weblib.services.logging.LoggerModule
 import co.zsmb.weblib.services.messaging.MessageModule
 import co.zsmb.weblib.services.storage.StorageModule
@@ -19,6 +20,7 @@ internal fun addDefaultModules(modules: MutableSet<Module>) {
     modules += LoggerModule
     modules += MessageModule
     modules += StorageModule
+    modules += HttpServiceModule
 }
 
 fun initAsync(comps: Set<Component>, afterInitActions: () -> Unit) = onLoad {

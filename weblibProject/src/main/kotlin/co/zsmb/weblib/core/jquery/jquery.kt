@@ -10,7 +10,7 @@ import kotlin.js.*
 external interface JQueryAjaxSettings {
     var accepts: Any? get() = definedExternally; set(value) = definedExternally
     var async: Boolean? get() = definedExternally; set(value) = definedExternally
-    val beforeSend: ((jqXHR: JQueryXHR, settings: JQueryAjaxSettings) -> Any)? get() = definedExternally
+    var beforeSend: ((jqXHR: JQueryXHR, settings: JQueryAjaxSettings) -> Any)? get() = definedExternally; set(value) = definedExternally
     var cache: Boolean? get() = definedExternally; set(value) = definedExternally
     val complete: ((jqXHR: JQueryXHR, textStatus: String) -> Any)? get() = definedExternally
     var contents: Json? get() = definedExternally; set(value) = definedExternally

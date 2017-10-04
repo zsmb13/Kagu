@@ -1,4 +1,4 @@
-package co.zsmb.weblib.util
+package co.zsmb.weblib.core.util
 
 external class Date {
 

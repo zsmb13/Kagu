@@ -1,4 +1,4 @@
-package co.zsmb.weblib.core.controller
+package co.zsmb.weblib.core
 
 import org.w3c.dom.Element
 

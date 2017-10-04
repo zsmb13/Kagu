@@ -6,7 +6,7 @@ import co.zsmb.webmain.services.HttpTestService
 object MyModule : Module() {
 
     override fun context() = declareContext {
-        provide { HttpTestService(get()) }
+        provide { HttpTestService(get(), get()) }
     }
 
 }

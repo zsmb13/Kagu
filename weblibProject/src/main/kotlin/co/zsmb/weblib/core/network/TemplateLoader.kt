@@ -5,7 +5,7 @@ import co.zsmb.weblib.core.jquery.jQuery
 import co.zsmb.weblib.core.jquery.jq.parseHTML
 import org.w3c.dom.Element
 
-object TemplateLoader {
+internal object TemplateLoader {
 
     private fun createEmptyObject() = js("return {}")
 

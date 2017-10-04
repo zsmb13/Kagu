@@ -1,4 +1,4 @@
-package co.zsmb.weblib.util
+package co.zsmb.weblib.core.dom
 
 import co.zsmb.weblib.core.jquery.jq
 import org.w3c.dom.Element
@@ -6,19 +6,19 @@ import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import org.w3c.dom.get
 
-inline fun NodeList.forEach(function: (Node) -> Unit) {
+internal inline fun NodeList.forEach(function: (Node) -> Unit) {
     for (i in 0 until this.length) {
         function(this[i]!!)
     }
 }
 
-fun NodeList.toList(): List<Node> {
+internal fun NodeList.toList(): List<Node> {
     val result = mutableListOf<Node>()
     this.forEach { result.add(it) }
     return result
 }
 
-fun Node.visitSubtreeThat(predicate: (Node) -> Boolean, action: (Node) -> Unit) {
+internal fun Node.visitSubtreeThat(predicate: (Node) -> Boolean, action: (Node) -> Unit) {
     if (predicate(this)) {
         action(this)
     }
@@ -30,7 +30,7 @@ fun Node.visitSubtreeThat(predicate: (Node) -> Boolean, action: (Node) -> Unit) 
     }
 }
 
-fun Node.findFirstNodeThat(predicate: (Node) -> Boolean): Node? {
+internal fun Node.findFirstNodeThat(predicate: (Node) -> Boolean): Node? {
     if (predicate(this)) return this
 
     this.childNodes.forEach {
@@ -47,7 +47,7 @@ fun Node.findFirstNodeThat(predicate: (Node) -> Boolean): Node? {
     return null
 }
 
-fun Node.visitChildrenThat(predicate: (Node) -> Boolean, action: (Node) -> Unit) {
+internal fun Node.visitChildrenThat(predicate: (Node) -> Boolean, action: (Node) -> Unit) {
     this.childNodes.forEach {
         if (predicate(it)) {
             action(it)
@@ -56,34 +56,34 @@ fun Node.visitChildrenThat(predicate: (Node) -> Boolean, action: (Node) -> Unit)
     }
 }
 
-fun Node.visitDepthFirst(action: (Node) -> Unit) {
+internal fun Node.visitDepthFirst(action: (Node) -> Unit) {
     this.childNodes.forEach {
         action(it)
         it.visitDepthFirst(action)
     }
 }
 
-fun Node.visitBreadthFirst(action: (Node) -> Unit) {
+internal fun Node.visitBreadthFirst(action: (Node) -> Unit) {
     this.childNodes.forEach(action)
     this.childNodes.forEach { it.visitBreadthFirst(action) }
 }
 
-fun Node.replaceWith(replacement: Node) {
+internal fun Node.replaceWith(replacement: Node) {
     this as Element
     this.replaceWith(replacement)
 }
 
-fun Node.removeChildren() {
+internal fun Node.removeChildren() {
     while (hasChildNodes()) {
         removeChild(firstChild!!)
     }
 }
 
-operator fun Node.plusAssign(node: Node) {
+internal operator fun Node.plusAssign(node: Node) {
     appendChild(node)
 }
 
-fun createElement(name: String): Element {
+internal fun createElement(name: String): Element {
     val html = "<$name></$name>"
     return jq.parseHTML(html)[0] as Element
 }

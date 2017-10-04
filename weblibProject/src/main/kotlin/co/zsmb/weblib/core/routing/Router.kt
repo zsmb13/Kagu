@@ -1,13 +1,13 @@
 package co.zsmb.weblib.core.routing
 
 import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.DomInjector
 import co.zsmb.weblib.core.InternalLogger
 import co.zsmb.weblib.core.Route
+import co.zsmb.weblib.core.dom.DomInjector
 import co.zsmb.weblib.core.init.State
 import kotlin.browser.window
 
-object Router {
+internal object Router {
 
     val states = mutableMapOf<Route, Component>()
     lateinit var defaultState: State

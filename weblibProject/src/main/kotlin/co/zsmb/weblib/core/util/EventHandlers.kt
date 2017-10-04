@@ -1,4 +1,4 @@
-package co.zsmb.weblib.util
+package co.zsmb.weblib.core.util
 
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.Event
