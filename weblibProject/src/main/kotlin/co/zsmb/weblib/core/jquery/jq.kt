@@ -1,4 +1,4 @@
-package co.zsmb.weblib.jquery
+package co.zsmb.weblib.core.jquery
 
 import org.w3c.dom.Element
 import kotlin.browser.document

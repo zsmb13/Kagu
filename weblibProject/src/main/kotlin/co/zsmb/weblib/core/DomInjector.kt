@@ -1,9 +1,9 @@
 package co.zsmb.weblib.core
 
 import co.zsmb.weblib.core.controller.Controller
-import co.zsmb.weblib.network.TemplateLoader
-import co.zsmb.weblib.routing.ComponentCache
-import co.zsmb.weblib.routing.Router
+import co.zsmb.weblib.core.network.TemplateLoader
+import co.zsmb.weblib.core.routing.ComponentCache
+import co.zsmb.weblib.core.routing.Router
 import co.zsmb.weblib.util.*
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement

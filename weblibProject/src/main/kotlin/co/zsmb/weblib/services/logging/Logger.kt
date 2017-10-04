@@ -1,4 +1,4 @@
-package co.zsmb.weblib.di.logging
+package co.zsmb.weblib.services.logging
 
 interface Logger {
 

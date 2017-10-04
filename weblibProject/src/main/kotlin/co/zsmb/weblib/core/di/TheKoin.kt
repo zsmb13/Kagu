@@ -1,9 +1,9 @@
-package co.zsmb.weblib.di
+package co.zsmb.weblib.core.di
 
 import co.zsmb.koinjs.Koin
 import co.zsmb.koinjs.KoinContext
 import co.zsmb.koinjs.dsl.module.Module
-import co.zsmb.weblib.di.TheKoin.koin
+import co.zsmb.weblib.core.di.TheKoin.koin
 
 @PublishedApi
 internal object TheKoin {

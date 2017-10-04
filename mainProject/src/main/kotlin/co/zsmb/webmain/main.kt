@@ -1,7 +1,7 @@
 package co.zsmb.webmain
 
 import co.zsmb.example.external.button.ButtonComponent
-import co.zsmb.weblib.dsl.application
+import co.zsmb.weblib.core.init.application
 import co.zsmb.webmain.components.links.LinksComponent
 import co.zsmb.webmain.components.menu.MenuComponent
 import co.zsmb.webmain.components.testButtons.TestButtonsComponent

@@ -1,5 +1,5 @@
 package co.zsmb.weblib.core
 
-typealias Selector = String
+internal typealias Selector = String
 
-typealias Route = String
+internal typealias Route = String

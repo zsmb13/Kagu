@@ -1,8 +1,7 @@
-package co.zsmb.weblib.messaging
+package co.zsmb.weblib.services.messaging
 
-typealias MessageCallback = (Any) -> Unit
 
-object MessageBroker {
+internal object MessageBrokerImpl : MessageBroker {
 
     private val subscriptions = mutableMapOf<String, MutableSet<MessageCallback>>()
 
@@ -14,13 +13,13 @@ object MessageBroker {
         return subscriptions[channelName]!!
     }
 
-    fun subscribe(channelName: String, callback: MessageCallback) =
+    override fun subscribe(channelName: String, callback: MessageCallback) =
             getChannel(channelName).add(callback)
 
-    fun unsubscribe(channelName: String, callback: MessageCallback) =
+    override fun unsubscribe(channelName: String, callback: MessageCallback) =
             getChannel(channelName).remove(callback)
 
-    fun publish(channelName: String, message: Any) =
+    override fun publish(channelName: String, message: Any) =
             getChannel(channelName).forEach { it(message) }
 
 }

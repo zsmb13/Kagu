@@ -1,6 +1,6 @@
-package co.zsmb.weblib.di.logging
+package co.zsmb.weblib.services.logging
 
-internal class LoggerImpl : Logger {
+internal object LoggerImpl : Logger {
 
     override fun d(message: String) = console.log("[Debug] $message")
 

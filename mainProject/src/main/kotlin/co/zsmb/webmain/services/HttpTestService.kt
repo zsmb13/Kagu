@@ -1,8 +1,8 @@
 package co.zsmb.webmain.services
 
-import co.zsmb.weblib.di.logging.Logger
-import co.zsmb.weblib.jquery.JQueryAjaxSettings
-import co.zsmb.weblib.jquery.jQuery
+import co.zsmb.weblib.core.jquery.JQueryAjaxSettings
+import co.zsmb.weblib.core.jquery.jQuery
+import co.zsmb.weblib.services.logging.Logger
 
 class HttpTestService(val logger: Logger) {
 

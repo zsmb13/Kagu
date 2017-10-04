@@ -1,4 +1,4 @@
-package co.zsmb.weblib.routing
+package co.zsmb.weblib.core.routing
 
 import co.zsmb.weblib.core.controller.Controller
 import org.w3c.dom.Node
