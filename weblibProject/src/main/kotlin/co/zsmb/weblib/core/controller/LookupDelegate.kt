@@ -1,22 +1,29 @@
 package co.zsmb.weblib.core.controller
 
-import co.zsmb.weblib.jquery.jq
+import co.zsmb.weblib.core.jquery.jq
 import kotlin.reflect.KProperty
 
 fun <T> Controller.lookup(id: String): LookupDelegate<T> {
     return LookupDelegate(id, this)
 }
 
+fun <T> Controller.findById(id: String): T {
+    val context = jq.select(root)
+    val query = "[data-kt-id='$id']"
+
+    val results = jq.select(query, context)
+
+    val firstResult = results[0]
+
+    @Suppress("UNCHECKED_CAST")
+    return firstResult as T
+}
+
 class LookupDelegate<T>(id: String, ctrl: Controller) {
 
     @Suppress("UNCHECKED_CAST")
     val value by lazy {
-        val context = jq.select(ctrl.root)
-        val query = "[data-kt-id='$id']"
-
-        val result = jq.select(query, context)
-
-        result[0]!! as T
+        ctrl.findById<T>(id)
     }
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
