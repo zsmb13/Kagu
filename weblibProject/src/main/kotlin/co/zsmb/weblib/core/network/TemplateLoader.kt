@@ -1,8 +1,8 @@
 package co.zsmb.weblib.core.network
 
+import co.zsmb.weblib.core.jquery.JQ.parseHTML
 import co.zsmb.weblib.core.jquery.JQueryAjaxSettings
 import co.zsmb.weblib.core.jquery.jQuery
-import co.zsmb.weblib.core.jquery.jq.parseHTML
 import org.w3c.dom.Element
 
 internal object TemplateLoader {

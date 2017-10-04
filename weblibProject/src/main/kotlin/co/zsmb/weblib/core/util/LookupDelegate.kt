@@ -1,7 +1,7 @@
 package co.zsmb.weblib.core.util
 
 import co.zsmb.weblib.core.Controller
-import co.zsmb.weblib.core.jquery.jq
+import co.zsmb.weblib.core.jquery.JQ
 import kotlin.reflect.KProperty
 
 fun <T> Controller.lookup(id: String): LookupDelegate<T> {
@@ -9,10 +9,10 @@ fun <T> Controller.lookup(id: String): LookupDelegate<T> {
 }
 
 fun <T> Controller.findById(id: String): T {
-    val context = jq.select(root)
+    val context = JQ.select(root)
     val query = "[data-kt-id='$id']"
 
-    val results = jq.select(query, context)
+    val results = JQ.select(query, context)
 
     val firstResult = results[0]
 

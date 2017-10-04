@@ -1,6 +1,6 @@
 package co.zsmb.weblib.core.dom
 
-import co.zsmb.weblib.core.jquery.jq
+import co.zsmb.weblib.core.jquery.JQ
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
@@ -85,5 +85,5 @@ internal operator fun Node.plusAssign(node: Node) {
 
 internal fun createElement(name: String): Element {
     val html = "<$name></$name>"
-    return jq.parseHTML(html)[0] as Element
+    return JQ.parseHTML(html)[0] as Element
 }
