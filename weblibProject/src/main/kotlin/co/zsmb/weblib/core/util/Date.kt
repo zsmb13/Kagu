@@ -84,8 +84,6 @@ external class Date {
     fun setUTCSeconds(secondsValue: Int,
                       msValue: Int = definedExternally): Long
 
-    fun setYear(yearValue: Int): Long
-
     // conversion getters
     fun toDateString(): String
 
