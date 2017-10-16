@@ -20,7 +20,7 @@ compileTestKotlin2Js {
 }
 
 [compileKotlin2Js, compileTestKotlin2Js]*.configure {
-    kotlinOptions.moduleKind = "commonjs"
+    kotlinOptions.moduleKind = "umd"
 }
 
 task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
@@ -47,7 +47,7 @@ task runMocha(type: NodeTask, dependsOn: [compileTestKotlin2Js, populateNodeModu
     } else {
         script = file('node_modules/.bin/mocha')
     }
-    args = [' -r', '`./kotlin`', compileTestKotlin2Js.outputFile]
+    args = [compileTestKotlin2Js.outputFile]
 }
 
 test.dependsOn runMocha
