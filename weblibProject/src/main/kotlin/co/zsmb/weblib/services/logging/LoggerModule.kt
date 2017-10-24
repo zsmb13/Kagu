@@ -2,7 +2,7 @@ package co.zsmb.weblib.services.logging
 
 import co.zsmb.koinjs.dsl.module.Module
 
-object LoggerModule : Module() {
+internal object LoggerModule : Module() {
 
     override fun context() =
             declareContext {

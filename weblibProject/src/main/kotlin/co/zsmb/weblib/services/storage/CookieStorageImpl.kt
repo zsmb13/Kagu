@@ -3,11 +3,12 @@ package co.zsmb.weblib.services.storage
 import co.zsmb.weblib.core.util.Date
 import kotlin.browser.document
 
-object CookieStorageImpl : CookieStorage {
+internal object CookieStorageImpl : CookieStorage {
 
     private val cookies by lazy {
         document.cookie
                 .splitToSequence(";")
+                .filter { it.isNotBlank() }
                 .map { it.trim() }
                 .map {
                     val (key, value) = it.split('=')
