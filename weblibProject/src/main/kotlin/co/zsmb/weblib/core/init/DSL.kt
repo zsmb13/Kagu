@@ -22,8 +22,8 @@ class SetupRoot {
 
     private val components = mutableSetOf<Component>()
     private val modules = mutableSetOf<Module>()
-    private val states = mutableSetOf<State>()
-    private lateinit var defaultState: State
+    private val states = mutableSetOf<StateDefinition>()
+    private lateinit var defaultState: StateDefinition
 
     fun components(setup: ComponentCollection.() -> Unit) {
         val collection = ComponentCollection()
@@ -68,7 +68,7 @@ class SetupRoot {
 
 }
 
-data class State(val path: String, val component: Component)
+data class StateDefinition(val path: String, val component: Component)
 
 @InitDsl
 class PartCollection<T> internal constructor() {
@@ -89,8 +89,8 @@ class StateBuilder internal constructor() {
     var path: String? = null
     var handler: Component? = null
 
-    internal fun build(): State {
-        return State(
+    internal fun build(): StateDefinition {
+        return StateDefinition(
                 path ?: throw IllegalStateException("State path not inited"),
                 handler ?: throw IllegalStateException("State handler not inited")
         )
@@ -101,9 +101,9 @@ class StateBuilder internal constructor() {
 @InitDsl
 class StateCollection internal constructor() {
 
-    private lateinit var defaultState: State
+    private lateinit var defaultState: StateDefinition
 
-    private val states = mutableSetOf<State>()
+    private val states = mutableSetOf<StateDefinition>()
 
     private var hasDefault = false
 
@@ -128,7 +128,7 @@ class StateCollection internal constructor() {
         hasDefault = true
     }
 
-    internal fun get(): Pair<Set<State>, State> {
+    internal fun get(): Pair<Set<StateDefinition>, StateDefinition> {
         if (!hasDefault) {
             throw IllegalStateException("No default state set in routing setup")
         }

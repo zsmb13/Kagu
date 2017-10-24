@@ -8,7 +8,7 @@ apply plugin: 'kotlin2js'
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile "co.zsmb:koinjs:0.1.1"
+    compile "co.zsmb:koinjs:0.1.2"
 }
 
 def outDir = "$buildDir/kotlin2js/main"
@@ -17,6 +17,7 @@ compileKotlin2Js {
     kotlinOptions {
         outputFile = "$outDir/weblib.js"
         sourceMap = true
+        moduleKind = "umd"
     }
 }
 

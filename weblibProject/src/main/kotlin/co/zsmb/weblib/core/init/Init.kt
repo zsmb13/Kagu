@@ -7,6 +7,7 @@ import co.zsmb.weblib.core.routing.Router
 import co.zsmb.weblib.services.http.HttpServiceModule
 import co.zsmb.weblib.services.logging.LoggerModule
 import co.zsmb.weblib.services.messaging.MessageModule
+import co.zsmb.weblib.services.pathparams.PathParamsModule
 import co.zsmb.weblib.services.storage.StorageModule
 import org.w3c.dom.events.Event
 import kotlin.browser.document
@@ -21,6 +22,7 @@ internal fun addDefaultModules(modules: MutableSet<Module>) {
     modules += MessageModule
     modules += StorageModule
     modules += HttpServiceModule
+    modules += PathParamsModule
 }
 
 fun initAsync(comps: Set<Component>, afterInitActions: () -> Unit) = onLoad {

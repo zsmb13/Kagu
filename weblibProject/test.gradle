@@ -19,7 +19,7 @@ compileTestKotlin2Js {
     }
 }
 
-[compileKotlin2Js, compileTestKotlin2Js]*.configure {
+compileTestKotlin2Js.configure {
     kotlinOptions.moduleKind = "umd"
 }
 

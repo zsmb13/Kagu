@@ -6,6 +6,7 @@ compileKotlin2Js {
         outputFile = "${buildDir}/app.js"
         suppressWarnings = true
         verbose = true
+        moduleKind = "umd"
     }
 }
 

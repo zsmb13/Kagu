@@ -23,7 +23,7 @@ fun main(args: Array<String>) = application {
 
     routing {
         state {
-            path = "/user"
+            path = "/groups/:groupId/user/:userId"
             handler = UserComponent
         }
         state {

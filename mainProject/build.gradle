@@ -16,7 +16,7 @@ dependencies {
         compile project(":weblibProject")
         compile project(":externalProject")
     } else {
-        compile "co.zsmb:koinjs:0.1.0"
+        compile "co.zsmb:koinjs:0.1.2"
         compile "co.zsmb:weblib:0.0.1"
         compile "co.zsmb.example:external:0.1.0"
     }
