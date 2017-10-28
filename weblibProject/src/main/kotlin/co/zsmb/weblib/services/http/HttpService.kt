@@ -13,4 +13,13 @@ interface HttpService {
              headers: List<Header> = listOf(),
              callback: (String) -> Unit)
 
+    fun put(url: String,
+            body: Any,
+            headers: List<Header> = listOf(),
+            callback: (String) -> Unit)
+
+    fun delete(url: String,
+               headers: List<Header> = listOf(),
+               callback: (String) -> Unit)
+
 }

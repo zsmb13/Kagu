@@ -14,6 +14,8 @@ clean.doFirst {
     delete webDir
 }
 
+jar.enabled = false
+
 build.doLast {
 
     // copies app.js into webdir
