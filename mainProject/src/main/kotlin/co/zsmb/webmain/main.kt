@@ -17,6 +17,7 @@ fun main(args: Array<String>) = application {
     components {
         +UserComponent
         +MenuComponent
+        +LinksComponent
         +ButtonComponent
         +TestButtonsComponent
     }

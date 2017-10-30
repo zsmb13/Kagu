@@ -44,6 +44,28 @@ internal object DomInjector {
         )
     }
 
+    /**
+     * Same as injectComponentsAsync, but caches the created controllers under [rootCompNode].
+     */
+    fun injectComponentsAsyncWithCaching(rootCompNode: Node) {
+
+        InternalLogger.d(this, "Injecting top level node (with cache): ${rootCompNode.nodeName}")
+
+        rootCompNode.visitSubtreeThat(
+                predicate = { it.nodeName in selectors },
+                action = { placeholder ->
+
+                    val component = compsMap[placeholder.nodeName.toLowerCase()]!!
+
+                    TemplateLoader.get(url = component.templateUrl, callback = { root ->
+                        val ctrl = initRoot(component, root)
+                        placeholder.replaceWith(root)
+                        ComponentCache.putController(rootCompNode, ctrl)
+                    })
+                }
+        )
+    }
+
     private fun initRoot(component: Component, root: Element): Controller {
         initLinks(root)
 
@@ -89,11 +111,21 @@ internal object DomInjector {
             return
         }
 
+        InternalLogger.d(this, "Creating new component")
+
         TemplateLoader.get(url = component.templateUrl, callback = { root ->
+            InternalLogger.d(this, "Fetched template for new component")
+
             val controller = initRoot(component, root)
+
+            InternalLogger.d(this, "Injecting subcomponents")
+
+            injectComponentsAsyncWithCaching(root)
 
             ComponentCache.putNode(route, root)
             ComponentCache.putController(root, controller)
+
+            InternalLogger.d(this, "Done caching, injecting route")
 
             injectCachedRoute(route)
         })
@@ -103,17 +135,17 @@ internal object DomInjector {
         InternalLogger.d(this, "Gonna remove app root children (${appRoot.childNodes.length})")
 
         appRoot.childNodes.forEach {
-            val controller = ComponentCache.getController(it)
-            controller?.onRemoved()
+            val controllers = ComponentCache.getControllers(it)
+            controllers.forEach(Controller::onRemoved)
         }
         appRoot.removeChildren()
 
         val node = ComponentCache.getNode(route)!!
-        val ctrl = ComponentCache.getController(node)!!
+        val controllers = ComponentCache.getControllers(node)
 
         appRoot += node
 
-        ctrl.onAdded()
+        controllers.forEach(Controller::onAdded)
     }
 
 }
