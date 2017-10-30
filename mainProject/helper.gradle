@@ -60,16 +60,12 @@ build.doLast {
     // process dependencies
     configurations.compile.each { File file ->
 
-        println "getting dependency ${file.name}"
-
         def isModule = false
         zipTree(file.absolutePath).visit { FileVisitDetails details ->
             if(details.file.name == "module-marker") {
                 isModule = true
             }
         }
-
-        println "is module: ${isModule}"
 
         if(isModule) {
             // copy module contents (js, html, css) to webdir/components
