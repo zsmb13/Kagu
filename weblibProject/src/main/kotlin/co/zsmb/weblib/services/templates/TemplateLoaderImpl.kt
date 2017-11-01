@@ -4,9 +4,9 @@ import co.zsmb.weblib.core.InternalLogger
 import co.zsmb.weblib.core.jquery.JQ.parseHTML
 import co.zsmb.weblib.core.jquery.JQueryAjaxSettings
 import co.zsmb.weblib.core.jquery.jQuery
-import org.w3c.dom.Element
+import org.w3c.dom.HTMLElement
 
-private typealias Callback = (Element) -> Unit
+private typealias Callback = (HTMLElement) -> Unit
 
 internal object TemplateLoaderImpl : TemplateLoader {
 
@@ -15,7 +15,7 @@ internal object TemplateLoaderImpl : TemplateLoader {
     private val cache = mutableMapOf<String, String>()
     private val onGoingCalls = mutableMapOf<String, MutableList<Callback>>()
 
-    override fun get(url: String, callback: (Element) -> Unit) {
+    override fun get(url: String, callback: (HTMLElement) -> Unit) {
 
         if (cache.containsKey(url)) {
             InternalLogger.d(this, "Cache had key $url")
@@ -49,10 +49,10 @@ internal object TemplateLoaderImpl : TemplateLoader {
 
     }
 
-    private fun returnResult(html: String, callback: (Element) -> Unit) {
+    private fun returnResult(html: String, callback: (HTMLElement) -> Unit) {
         val elems = parseHTML(html)
         // TODO wrap in a div if length is not 1 ?
-        val root = elems[0] as Element
+        val root = elems[0] as HTMLElement
         callback(root)
     }
 
