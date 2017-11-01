@@ -38,6 +38,7 @@ internal object Router {
 
         val state = findState(route) ?:
                 run {
+                    InternalLogger.d(this, "Route not found, navigating to default")
                     setHash(defaultState.path)
                     return
                 }

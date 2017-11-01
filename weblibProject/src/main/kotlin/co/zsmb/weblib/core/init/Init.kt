@@ -7,6 +7,7 @@ import co.zsmb.weblib.core.routing.Router
 import co.zsmb.weblib.services.http.HttpServiceModule
 import co.zsmb.weblib.services.logging.LoggerModule
 import co.zsmb.weblib.services.messaging.MessageModule
+import co.zsmb.weblib.services.navigation.NavigatorModule
 import co.zsmb.weblib.services.pathparams.PathParamsModule
 import co.zsmb.weblib.services.storage.StorageModule
 import co.zsmb.weblib.services.templates.TemplateModule
@@ -19,11 +20,12 @@ private fun onLoad(actions: (Event) -> Unit) {
 }
 
 internal fun addDefaultModules(modules: MutableSet<Module>) {
+    modules += HttpServiceModule
     modules += LoggerModule
     modules += MessageModule
-    modules += StorageModule
-    modules += HttpServiceModule
+    modules += NavigatorModule
     modules += PathParamsModule
+    modules += StorageModule
     modules += TemplateModule
 }
 
@@ -39,6 +41,7 @@ fun initAsync(comps: Set<Component>, afterInitActions: () -> Unit) = onLoad {
 
     DomInjector.init(selectors, compsMap)
     DomInjector.injectComponentsAsync(document)
+    DomInjector.initLinks(document)
 
     Router.refresh()
 

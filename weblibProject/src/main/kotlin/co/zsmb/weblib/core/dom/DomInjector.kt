@@ -86,7 +86,7 @@ internal object DomInjector {
         return controller
     }
 
-    private fun initLinks(root: Element) {
+    internal fun initLinks(root: Node) {
         val linkAttr = "data-href"
 
         root.visitSubtreeThat(
