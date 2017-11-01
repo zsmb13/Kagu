@@ -47,7 +47,7 @@ internal object DomInjector {
     /**
      * Same as injectComponentsAsync, but caches the created controllers under [rootCompNode].
      */
-    fun injectComponentsAsyncWithCaching(rootCompNode: Node) {
+    fun injectSubcomponentsAsyncWithCaching(rootCompNode: Node) {
 
         InternalLogger.d(this, "Injecting top level node (with cache): ${rootCompNode.nodeName}")
 
@@ -61,6 +61,13 @@ internal object DomInjector {
                         val ctrl = initRoot(component, root)
                         placeholder.replaceWith(root)
                         ComponentCache.putController(rootCompNode, ctrl)
+
+                        // Subcomponent loaded, check if root component is currently active
+                        val route = Router.getRoute()
+                        val node = ComponentCache.getNode(route)
+                        if (node == rootCompNode) {
+                            ctrl.onAdded()
+                        }
                     })
                 }
         )
@@ -120,7 +127,7 @@ internal object DomInjector {
 
             InternalLogger.d(this, "Injecting subcomponents")
 
-            injectComponentsAsyncWithCaching(root)
+            injectSubcomponentsAsyncWithCaching(root)
 
             ComponentCache.putNode(route, root)
             ComponentCache.putController(root, controller)

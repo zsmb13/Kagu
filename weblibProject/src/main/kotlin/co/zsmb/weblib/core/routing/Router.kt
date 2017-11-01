@@ -20,7 +20,7 @@ internal object Router {
 
     private fun getHash() = window.location.hash
 
-    private fun getRoute(): String = getHash().substring(1)
+    internal fun getRoute(): String = getHash().substring(1)
 
     private fun setHash(fragment: String) {
         window.location.hash = fragment
