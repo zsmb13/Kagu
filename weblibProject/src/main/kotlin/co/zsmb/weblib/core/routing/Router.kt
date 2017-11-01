@@ -73,7 +73,11 @@ internal object Router {
 
         InternalLogger.d(this, "base $base")
 
-        val newHref = "$base#/$hash/"
+        val newHref = if (hash.isBlank()) {
+            "$base#/"
+        } else {
+            "$base#/$hash/"
+        }
 
         if (href != newHref) {
             setUrl(newHref)
