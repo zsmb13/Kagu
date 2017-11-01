@@ -4,9 +4,10 @@ import co.zsmb.weblib.core.Component
 import co.zsmb.weblib.core.Controller
 import co.zsmb.weblib.core.InternalLogger
 import co.zsmb.weblib.core.Selector
-import co.zsmb.weblib.core.network.TemplateLoader
+import co.zsmb.weblib.core.di.inject
 import co.zsmb.weblib.core.routing.ComponentCache
 import co.zsmb.weblib.core.routing.Router
+import co.zsmb.weblib.services.templates.TemplateLoader
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.Node
@@ -16,6 +17,8 @@ internal object DomInjector {
 
     private lateinit var selectors: Set<String>
     private lateinit var compsMap: Map<Selector, Component>
+
+    private val templateLoader by inject<TemplateLoader>()
 
     fun init(selectors: Set<String>, compsMap: Map<Selector, Component>) {
         DomInjector.selectors = selectors
@@ -36,7 +39,7 @@ internal object DomInjector {
 
                     val component = compsMap[placeholder.nodeName.toLowerCase()]!!
 
-                    TemplateLoader.get(url = component.templateUrl, callback = { root ->
+                    templateLoader.get(url = component.templateUrl, callback = { root ->
                         initRoot(component, root)
                         placeholder.replaceWith(root)
                     })
@@ -57,7 +60,7 @@ internal object DomInjector {
 
                     val component = compsMap[placeholder.nodeName.toLowerCase()]!!
 
-                    TemplateLoader.get(url = component.templateUrl, callback = { root ->
+                    templateLoader.get(url = component.templateUrl, callback = { root ->
                         val ctrl = initRoot(component, root)
                         placeholder.replaceWith(root)
                         ComponentCache.putController(rootCompNode, ctrl)
@@ -120,7 +123,7 @@ internal object DomInjector {
 
         InternalLogger.d(this, "Creating new component")
 
-        TemplateLoader.get(url = component.templateUrl, callback = { root ->
+        templateLoader.get(url = component.templateUrl, callback = { root ->
             InternalLogger.d(this, "Fetched template for new component")
 
             val controller = initRoot(component, root)

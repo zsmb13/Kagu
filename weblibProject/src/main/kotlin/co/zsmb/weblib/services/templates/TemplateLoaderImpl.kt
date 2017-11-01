@@ -1,17 +1,17 @@
-package co.zsmb.weblib.core.network
+package co.zsmb.weblib.services.templates
 
 import co.zsmb.weblib.core.jquery.JQ.parseHTML
 import co.zsmb.weblib.core.jquery.JQueryAjaxSettings
 import co.zsmb.weblib.core.jquery.jQuery
 import org.w3c.dom.Element
 
-internal object TemplateLoader {
+internal object TemplateLoaderImpl : TemplateLoader {
 
     private fun createEmptyObject() = js("return {}")
 
     private val cache = mutableMapOf<String, String>()
 
-    fun get(url: String, callback: (Element) -> Unit) {
+    override fun get(url: String, callback: (Element) -> Unit) {
 
         if (cache.containsKey(url)) {
             returnResult(cache[url]!!, callback)
