@@ -55,7 +55,7 @@ internal object Router {
     }
 
     private fun setUrl(url: String) {
-        window.history.pushState("", "this is the new window title", url)
+        window.history.replaceState("", "this is the new window title", url)
     }
 
     fun cleanUrl() {
