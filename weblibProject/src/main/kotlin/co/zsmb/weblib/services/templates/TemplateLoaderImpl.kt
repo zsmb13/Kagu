@@ -50,7 +50,7 @@ internal object TemplateLoaderImpl : TemplateLoader {
     }
 
     private fun returnResult(html: String, callback: (HTMLElement) -> Unit) {
-        val elems = parseHTML(html)
+        val elems = parseHTML(html.trim())
         // TODO wrap in a div if length is not 1 ?
         val root = elems[0] as HTMLElement
         callback(root)
