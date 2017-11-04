@@ -1,6 +1,5 @@
 package co.zsmb.weblib.services.templates
 
-import co.zsmb.weblib.core.InternalLogger
 import co.zsmb.weblib.core.jquery.JQ.parseHTML
 import co.zsmb.weblib.core.jquery.JQueryAjaxSettings
 import co.zsmb.weblib.core.jquery.jQuery
@@ -18,13 +17,11 @@ internal object TemplateLoaderImpl : TemplateLoader {
     override fun get(url: String, callback: (HTMLElement) -> Unit) {
 
         if (cache.containsKey(url)) {
-            InternalLogger.d(this, "Cache had key $url")
             returnResult(cache[url]!!, callback)
             return
         }
 
         if (onGoingCalls.containsKey(url)) {
-            InternalLogger.d(this, "There were in flight calls for $url")
             onGoingCalls[url]!! += callback
             return
         }
@@ -39,7 +36,6 @@ internal object TemplateLoaderImpl : TemplateLoader {
 
         jQuery.ajax(s).done { html ->
             cache[url] = html
-            InternalLogger.d(this, "Added to cache key $url")
 
             onGoingCalls[url]!!.forEach { callback ->
                 returnResult(html, callback)

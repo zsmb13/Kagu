@@ -3,6 +3,10 @@ package co.zsmb.weblib.services.http
 import co.zsmb.weblib.core.jquery.JQueryAjaxSettings
 import co.zsmb.weblib.core.jquery.JQueryXHR
 import co.zsmb.weblib.core.jquery.jQuery
+import co.zsmb.weblib.services.http.backoff.BackoffStrategy
+import co.zsmb.weblib.services.http.backoff.ExponentialBackoffStrategy
+import co.zsmb.weblib.services.http.backoff.LinearBackoffStrategy
+import co.zsmb.weblib.services.http.backoff.NoBackoffStrategy
 
 internal object HttpServiceImpl : HttpService {
 
@@ -26,40 +30,80 @@ internal object HttpServiceImpl : HttpService {
                 }
             }
 
-    private fun JQueryXHR.withCallback(callback: (String) -> Unit) {
+    private fun JQueryXHR.withCallbacks(onSuccess: (String) -> Unit, onError: (String) -> Unit) {
         this.done { result ->
-            callback(JSON.stringify(result))
+            realBackoffStrategy.onSuccess()
+            onSuccess(JSON.stringify(result))
+        }
+        this.fail { error ->
+            realBackoffStrategy.onError()
+            onError(JSON.stringify(error))
         }
     }
 
     override fun get(url: String,
                      headers: List<Header>,
-                     callback: (String) -> Unit) {
+                     onSuccess: (String) -> Unit,
+                     onError: (String) -> Unit) {
+        if (!realBackoffStrategy.allowsCalls()) {
+            onError(BackoffStrategy.ERROR_MESSAGE)
+            return
+        }
+
         val s = createAjaxSettings(url, "GET", headers)
-        jQuery.ajax(s).withCallback(callback)
+        jQuery.ajax(s).withCallbacks(onSuccess, onError)
     }
 
     override fun post(url: String,
                       body: Any,
                       headers: List<Header>,
-                      callback: (String) -> Unit) {
+                      onSuccess: (String) -> Unit,
+                      onError: (String) -> Unit) {
+        if (!realBackoffStrategy.allowsCalls()) {
+            onError(BackoffStrategy.ERROR_MESSAGE)
+            return
+        }
+
         val s = createAjaxSettings(url, "POST", headers, body)
-        jQuery.ajax(s).withCallback(callback)
+        jQuery.ajax(s).withCallbacks(onSuccess, onError)
     }
 
     override fun put(url: String,
                      body: Any,
                      headers: List<Header>,
-                     callback: (String) -> Unit) {
+                     onSuccess: (String) -> Unit,
+                     onError: (String) -> Unit) {
+        if (!realBackoffStrategy.allowsCalls()) {
+            onError(BackoffStrategy.ERROR_MESSAGE)
+            return
+        }
+
         val s = createAjaxSettings(url, "PUT", headers, body)
-        jQuery.ajax(s).withCallback(callback)
+        jQuery.ajax(s).withCallbacks(onSuccess, onError)
     }
 
     override fun delete(url: String,
                         headers: List<Header>,
-                        callback: (String) -> Unit) {
+                        onSuccess: (String) -> Unit,
+                        onError: (String) -> Unit) {
+        if (!realBackoffStrategy.allowsCalls()) {
+            onError(BackoffStrategy.ERROR_MESSAGE)
+            return
+        }
+
         val s = createAjaxSettings(url, "DELETE", headers)
-        jQuery.ajax(s).withCallback(callback)
+        jQuery.ajax(s).withCallbacks(onSuccess, onError)
     }
+
+    private var realBackoffStrategy: BackoffStrategy = NoBackoffStrategy()
+
+    override var backoffStrategy: HttpService.BackoffStrategy = HttpService.BackoffStrategy.None
+        set(value) {
+            realBackoffStrategy = when (value) {
+                HttpService.BackoffStrategy.None -> NoBackoffStrategy()
+                HttpService.BackoffStrategy.Linear -> LinearBackoffStrategy()
+                HttpService.BackoffStrategy.Exponential -> ExponentialBackoffStrategy()
+            }
+        }
 
 }

@@ -99,6 +99,7 @@ external interface JQueryPromise<T> : JQueryGenericPromise<T> {
     fun always(alwaysCallback1: Array<JQueryPromiseCallback<Any>>? = definedExternally /* null */, vararg alwaysCallbacksN: JQueryPromiseCallback<Any>): JQueryPromise<T>
     fun always(alwaysCallback1: Array<JQueryPromiseCallback<Any>>? = definedExternally /* null */, vararg alwaysCallbacksN: Array<JQueryPromiseCallback<Any>>): JQueryPromise<T>
     fun done(callback: (String) -> Unit)
+    fun fail(callback: (String) -> Unit)
     fun done(doneCallback1: JQueryPromiseCallback<T>? = definedExternally /* null */, vararg doneCallbackN: JQueryPromiseCallback<T>): JQueryPromise<T>
     fun done(doneCallback1: Array<JQueryPromiseCallback<T>>? = definedExternally /* null */, vararg doneCallbackN: JQueryPromiseCallback<T>): JQueryPromise<T>
     fun done(doneCallback1: Array<JQueryPromiseCallback<T>>? = definedExternally /* null */, vararg doneCallbackN: Array<JQueryPromiseCallback<T>>): JQueryPromise<T>
