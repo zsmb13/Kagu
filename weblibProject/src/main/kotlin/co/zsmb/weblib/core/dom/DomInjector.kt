@@ -2,7 +2,6 @@ package co.zsmb.weblib.core.dom
 
 import co.zsmb.weblib.core.Component
 import co.zsmb.weblib.core.Controller
-import co.zsmb.weblib.core.InternalLogger
 import co.zsmb.weblib.core.Selector
 import co.zsmb.weblib.core.di.inject
 import co.zsmb.weblib.core.routing.ComponentCache
@@ -30,13 +29,9 @@ internal object DomInjector {
      * HTML contents and creating a new controller for each of them.
      */
     fun injectComponentsAsync(node: Node) {
-
-        InternalLogger.d(this, "Injecting top level node: ${node.nodeName}")
-
         node.visitSubtreeThat(
                 predicate = { it.nodeName in selectors },
                 action = { placeholder ->
-
                     val component = compsMap[placeholder.nodeName.toLowerCase()]!!
 
                     templateLoader.get(url = component.templateUrl, callback = { root ->
@@ -51,13 +46,9 @@ internal object DomInjector {
      * Same as injectComponentsAsync, but caches the created controllers under [rootCompNode].
      */
     fun injectSubcomponentsAsyncWithCaching(rootCompNode: Node) {
-
-        InternalLogger.d(this, "Injecting top level node (with cache): ${rootCompNode.nodeName}")
-
         rootCompNode.visitSubtreeThat(
                 predicate = { it.nodeName in selectors },
                 action = { placeholder ->
-
                     val component = compsMap[placeholder.nodeName.toLowerCase()]!!
 
                     templateLoader.get(url = component.templateUrl, callback = { root ->
@@ -100,7 +91,6 @@ internal object DomInjector {
                     a.removeAttribute("data-href")
                     a.onclick = {
                         it.preventDefault()
-                        InternalLogger.d(this, "clicked on a link with ref $ref")
                         Router.navigateTo(ref)
                     }
                 }
@@ -116,33 +106,23 @@ internal object DomInjector {
 
     fun injectAppComponentAsync(route: String, component: Component) {
         if (route in ComponentCache) {
-            InternalLogger.d(this, "Getting component from cache for route: $route")
             injectCachedRoute(route)
             return
         }
 
-        InternalLogger.d(this, "Creating new component")
-
         templateLoader.get(url = component.templateUrl, callback = { root ->
-            InternalLogger.d(this, "Fetched template for new component")
-
             val controller = initRoot(component, root)
-
-            InternalLogger.d(this, "Injecting subcomponents")
 
             injectSubcomponentsAsyncWithCaching(root)
 
             ComponentCache.putNode(route, root)
             ComponentCache.putController(root, controller)
 
-            InternalLogger.d(this, "Done caching, injecting route")
-
             injectCachedRoute(route)
         })
     }
 
     private fun injectCachedRoute(route: String) {
-        InternalLogger.d(this, "Gonna remove app root children (${appRoot.childNodes.length})")
 
         appRoot.childNodes.forEach {
             val controllers = ComponentCache.getControllers(it)

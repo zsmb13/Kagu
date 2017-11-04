@@ -1,7 +1,6 @@
 package co.zsmb.weblib.core.routing
 
 import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.InternalLogger
 import co.zsmb.weblib.core.dom.DomInjector
 import co.zsmb.weblib.core.init.StateDefinition
 import kotlin.browser.window
@@ -38,7 +37,6 @@ internal object Router {
 
         val state = findState(route) ?:
                 run {
-                    InternalLogger.d(this, "Route not found, navigating to default")
                     setHash(defaultState.path)
                     return
                 }
@@ -66,13 +64,9 @@ internal object Router {
                 .substringAfterLast('#', missingDelimiterValue = "")
                 .trim('/')
 
-        InternalLogger.d(this, "hash $hash")
-
         val base = href
                 .substringBeforeLast('#')
                 .dropLastWhile { it != '/' }
-
-        InternalLogger.d(this, "base $base")
 
         val newHref = if (hash.isBlank()) {
             "$base#/"
@@ -90,7 +84,6 @@ internal object Router {
         this.defaultState = Router.State(defaultState)
 
         window.onhashchange = {
-            InternalLogger.d(this, "Hash changed to ${getHash()}")
             refresh()
         }
     }
@@ -116,8 +109,6 @@ internal object Router {
         return State(fixedPath, regex, params, it.component)
     }
 
-    private fun findState(route: String): State? {
-        return states.firstOrNull { route.matches(it.regex) }
-    }
+    private fun findState(route: String) = states.firstOrNull { route.matches(it.regex) }
 
 }
