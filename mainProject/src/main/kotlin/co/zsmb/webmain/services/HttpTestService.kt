@@ -16,10 +16,14 @@ class HttpTestService(val logger: Logger, val httpService: HttpService) {
                 "woofers" to "five"
         )
 
-        httpService.get(url, headers) { response ->
-            logger.d(this, JSON.stringify(response))
-        }
-
+        httpService.get(url, headers,
+                { response ->
+                    logger.d(this, JSON.stringify(response))
+                },
+                { error ->
+                    logger.d(this, "Http error: $error")
+                }
+        )
     }
 
 }
