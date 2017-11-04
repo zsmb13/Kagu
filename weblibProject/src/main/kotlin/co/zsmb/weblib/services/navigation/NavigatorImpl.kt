@@ -1,6 +1,6 @@
 package co.zsmb.weblib.services.navigation
 
-import co.zsmb.weblib.core.routing.Router
+import co.zsmb.weblib.internals.routing.Router
 
 internal object NavigatorImpl : Navigator {
 

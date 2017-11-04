@@ -1,8 +1,8 @@
 package co.zsmb.weblib.services.http
 
-import co.zsmb.weblib.core.jquery.JQueryAjaxSettings
-import co.zsmb.weblib.core.jquery.JQueryXHR
-import co.zsmb.weblib.core.jquery.jQuery
+import co.zsmb.weblib.internals.jquery.JQueryAjaxSettings
+import co.zsmb.weblib.internals.jquery.JQueryXHR
+import co.zsmb.weblib.internals.jquery.jQuery
 import co.zsmb.weblib.services.http.backoff.BackoffStrategy
 import co.zsmb.weblib.services.http.backoff.ExponentialBackoffStrategy
 import co.zsmb.weblib.services.http.backoff.LinearBackoffStrategy

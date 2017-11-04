@@ -2,8 +2,10 @@ package co.zsmb.weblib.core.init
 
 import co.zsmb.koinjs.dsl.module.Module
 import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.di.TheKoin
-import co.zsmb.weblib.core.routing.Router
+import co.zsmb.weblib.internals.di.KaguKoin
+import co.zsmb.weblib.internals.init.addDefaultModules
+import co.zsmb.weblib.internals.init.initAsync
+import co.zsmb.weblib.internals.routing.Router
 
 @DslMarker
 annotation class InitDsl
@@ -55,7 +57,7 @@ class SetupRoot {
     fun build() {
         // MODULES
         addDefaultModules(modules)
-        TheKoin.init(modules)
+        KaguKoin.init(modules)
         Router.init(states, defaultState)
 
         // COMPONENTS

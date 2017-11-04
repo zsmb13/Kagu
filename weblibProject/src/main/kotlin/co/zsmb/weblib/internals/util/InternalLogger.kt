@@ -1,4 +1,4 @@
-package co.zsmb.weblib.core
+package co.zsmb.weblib.internals.util
 
 internal object InternalLogger {
 

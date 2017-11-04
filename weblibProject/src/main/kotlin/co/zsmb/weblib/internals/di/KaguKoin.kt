@@ -1,22 +1,19 @@
-package co.zsmb.weblib.core.di
+package co.zsmb.weblib.internals.di
 
 import co.zsmb.koinjs.Koin
 import co.zsmb.koinjs.KoinContext
 import co.zsmb.koinjs.dsl.module.Module
-import co.zsmb.weblib.core.di.TheKoin.koin
 
 @PublishedApi
-internal object TheKoin {
+internal object KaguKoin {
 
     private val modules = mutableListOf<Module>()
 
     internal fun init(modules: MutableSet<Module>) {
-        this.modules += modules
+        KaguKoin.modules += modules
     }
 
     @PublishedApi
     internal val koin: KoinContext by lazy { Koin().build(modules) }
 
 }
-
-inline fun <reified T> inject(): Lazy<T> = kotlin.lazy { koin.get<T>() }

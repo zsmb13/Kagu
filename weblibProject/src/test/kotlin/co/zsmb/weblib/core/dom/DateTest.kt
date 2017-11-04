@@ -1,5 +1,6 @@
-package co.zsmb.weblib.core.util
+package co.zsmb.weblib.core.dom
 
+import co.zsmb.weblib.core.util.Date
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

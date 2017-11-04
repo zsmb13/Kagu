@@ -1,8 +1,8 @@
-package co.zsmb.weblib.core.routing
+package co.zsmb.weblib.internals.routing
 
 import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.dom.DomInjector
 import co.zsmb.weblib.core.init.StateDefinition
+import co.zsmb.weblib.internals.dom.DomInjector
 import kotlin.browser.window
 
 internal object Router {
@@ -80,8 +80,8 @@ internal object Router {
     }
 
     fun init(states: Set<StateDefinition>, defaultState: StateDefinition) {
-        this.states += states.map(this::convertToState)
-        this.defaultState = Router.State(defaultState)
+        Router.states += states.map(this::convertToState)
+        Router.defaultState = State(defaultState)
 
         window.onhashchange = {
             refresh()

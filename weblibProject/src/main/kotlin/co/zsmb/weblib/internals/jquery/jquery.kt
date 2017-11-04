@@ -1,13 +1,13 @@
 @file:Suppress("INTERFACE_WITH_SUPERCLASS", "OVERRIDING_FINAL_MEMBER", "RETURN_TYPE_MISMATCH_ON_OVERRIDE", "CONFLICTING_OVERLOADS")
 
-package co.zsmb.weblib.core.jquery
+package co.zsmb.weblib.internals.jquery
 
 import org.w3c.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.xhr.XMLHttpRequest
 import kotlin.js.*
 
-external interface JQueryAjaxSettings {
+internal external interface JQueryAjaxSettings {
     var accepts: Any? get() = definedExternally; set(value) = definedExternally
     var async: Boolean? get() = definedExternally; set(value) = definedExternally
     var beforeSend: ((jqXHR: JQueryXHR, settings: JQueryAjaxSettings) -> Any)? get() = definedExternally; set(value) = definedExternally
@@ -44,7 +44,7 @@ external interface JQueryAjaxSettings {
     var xhrFields: Json? get() = definedExternally; set(value) = definedExternally
 }
 
-external interface JQueryXHR : XMLHttpRequest, JQueryPromise<Any> {
+internal external interface JQueryXHR : XMLHttpRequest, JQueryPromise<Any> {
     override fun overrideMimeType(mimeType: String): Any
     fun abort(statusText: String? = definedExternally /* null */)
     fun <R> then(doneCallback: (data: Any, textStatus: String, jqXHR: JQueryXHR) -> R, failCallback: ((jqXHR: JQueryXHR, textStatus: String, errorThrown: Any) -> Unit)? = definedExternally /* null */): JQueryPromise<R>
@@ -52,7 +52,7 @@ external interface JQueryXHR : XMLHttpRequest, JQueryPromise<Any> {
     fun error(xhr: JQueryXHR, textStatus: String, errorThrown: String)
 }
 
-external interface JQueryCallback {
+internal external interface JQueryCallback {
     fun add(callbacks: Function<*>): JQueryCallback
     fun add(callbacks: Array<Function<*>>): JQueryCallback
     fun disable(): JQueryCallback
@@ -68,17 +68,17 @@ external interface JQueryCallback {
     fun remove(callbacks: Array<Function<*>>): JQueryCallback
 }
 
-external interface JQueryGenericPromise<T> {
+internal external interface JQueryGenericPromise<T> {
     fun <U> then(doneFilter: (value: T? /*= null*/, values: Any) -> dynamic /* U | jquery.JQueryPromise<U> */, failFilter: ((reasons: Any) -> Any)? = definedExternally /* null */, progressFilter: ((progression: Any) -> Any)? = definedExternally /* null */): JQueryPromise<U>
     fun then(doneFilter: (value: T? /*= null*/, values: Any) -> Unit, failFilter: ((reasons: Any) -> Any)? = definedExternally /* null */, progressFilter: ((progression: Any) -> Any)? = definedExternally /* null */): JQueryPromise<Unit>
 }
 
-external interface JQueryPromiseCallback<T> {
+internal external interface JQueryPromiseCallback<T> {
     @nativeInvoke
     operator fun invoke(value: T? = definedExternally, vararg args: Any)
 }
 
-external interface JQueryPromiseOperator<T, U> {
+internal external interface JQueryPromiseOperator<T, U> {
     @nativeInvoke
     operator fun invoke(callback1: JQueryPromiseCallback<T>, vararg callbacksN: JQueryPromiseCallback<Any>): JQueryPromise<U>
 
@@ -92,7 +92,7 @@ external interface JQueryPromiseOperator<T, U> {
     operator fun invoke(callback1: Array<JQueryPromiseCallback<T>>, vararg callbacksN: Array<JQueryPromiseCallback<Any>>): JQueryPromise<U>
 }
 
-external interface JQueryPromise<T> : JQueryGenericPromise<T> {
+internal external interface JQueryPromise<T> : JQueryGenericPromise<T> {
     fun state(): String
     fun always(alwaysCallback1: JQueryPromiseCallback<Any>? = definedExternally /* null */, vararg alwaysCallbacksN: JQueryPromiseCallback<Any>): JQueryPromise<T>
     fun always(alwaysCallback1: JQueryPromiseCallback<Any>? = definedExternally /* null */, vararg alwaysCallbacksN: Array<JQueryPromiseCallback<Any>>): JQueryPromise<T>
@@ -114,7 +114,7 @@ external interface JQueryPromise<T> : JQueryGenericPromise<T> {
     fun pipe(doneFilter: ((x: Any) -> Any)? = definedExternally /* null */, failFilter: ((x: Any) -> Any)? = definedExternally /* null */, progressFilter: ((x: Any) -> Any)? = definedExternally /* null */): JQueryPromise<Any>
 }
 
-external interface JQueryDeferred<T> : JQueryGenericPromise<T> {
+internal external interface JQueryDeferred<T> : JQueryGenericPromise<T> {
     fun state(): String
     fun always(alwaysCallback1: JQueryPromiseCallback<Any>? = definedExternally /* null */, vararg alwaysCallbacksN: JQueryPromiseCallback<Any>): JQueryDeferred<T>
     fun always(alwaysCallback1: JQueryPromiseCallback<Any>? = definedExternally /* null */, vararg alwaysCallbacksN: Array<JQueryPromiseCallback<Any>>): JQueryDeferred<T>
@@ -142,7 +142,7 @@ external interface JQueryDeferred<T> : JQueryGenericPromise<T> {
     fun pipe(doneFilter: ((x: Any) -> Any)? = definedExternally /* null */, failFilter: ((x: Any) -> Any)? = definedExternally /* null */, progressFilter: ((x: Any) -> Any)? = definedExternally /* null */): JQueryPromise<Any>
 }
 
-external interface BaseJQueryEventObject : Event {
+internal external interface BaseJQueryEventObject : Event {
     override var currentTarget: Element
     var data: Any
     var delegateTarget: Element
@@ -163,14 +163,14 @@ external interface BaseJQueryEventObject : Event {
     var metaKey: Boolean
 }
 
-external interface JQueryInputEventObject : BaseJQueryEventObject {
+internal external interface JQueryInputEventObject : BaseJQueryEventObject {
     var altKey: Boolean
     var ctrlKey: Boolean
     override var metaKey: Boolean
     var shiftKey: Boolean
 }
 
-external interface JQueryMouseEventObject : JQueryInputEventObject {
+internal external interface JQueryMouseEventObject : JQueryInputEventObject {
     var button: Number
     var clientX: Number
     var clientY: Number
@@ -182,15 +182,15 @@ external interface JQueryMouseEventObject : JQueryInputEventObject {
     var screenY: Number
 }
 
-external interface JQueryKeyEventObject : JQueryInputEventObject {
+internal external interface JQueryKeyEventObject : JQueryInputEventObject {
     var char: Any
     var charCode: Number
     var key: Any
     var keyCode: Number
 }
 
-external interface JQueryEventObject : BaseJQueryEventObject, JQueryInputEventObject, JQueryMouseEventObject, JQueryKeyEventObject
-external interface JQuerySupport {
+internal external interface JQueryEventObject : BaseJQueryEventObject, JQueryInputEventObject, JQueryMouseEventObject, JQueryKeyEventObject
+internal external interface JQuerySupport {
     var ajax: Boolean? get() = definedExternally; set(value) = definedExternally
     var boxModel: Boolean? get() = definedExternally; set(value) = definedExternally
     var changeBubbles: Boolean? get() = definedExternally; set(value) = definedExternally
@@ -212,7 +212,7 @@ external interface JQuerySupport {
     var tbody: Boolean? get() = definedExternally; set(value) = definedExternally
 }
 
-external interface JQueryParam {
+internal external interface JQueryParam {
     @nativeInvoke
     operator fun invoke(obj: Any): String
 
@@ -220,22 +220,22 @@ external interface JQueryParam {
     operator fun invoke(obj: Any, traditional: Boolean): String
 }
 
-external interface JQueryEventConstructor {
+internal external interface JQueryEventConstructor {
     @nativeInvoke
     operator fun invoke(name: String, eventProperties: Any? = definedExternally /* null */): JQueryEventObject
 }
 
-external interface JQueryCoordinates {
+internal external interface JQueryCoordinates {
     var left: Number
     var top: Number
 }
 
-external interface JQuerySerializeArrayElement {
+internal external interface JQuerySerializeArrayElement {
     var name: String
     var value: String
 }
 
-external interface JQueryAnimationOptions {
+internal external interface JQueryAnimationOptions {
     var duration: Any? get() = definedExternally; set(value) = definedExternally
     var easing: String? get() = definedExternally; set(value) = definedExternally
     var complete: Function<*>? get() = definedExternally; set(value) = definedExternally
@@ -249,12 +249,12 @@ external interface JQueryAnimationOptions {
     var specialEasing: Any? get() = definedExternally; set(value) = definedExternally
 }
 
-external interface JQueryEasingFunction {
+internal external interface JQueryEasingFunction {
     @nativeInvoke
     operator fun invoke(percent: Number): Number
 }
 
-external interface JQueryEasingFunctions {
+internal external interface JQueryEasingFunctions {
     @nativeGetter
     operator fun get(name: String): JQueryEasingFunction?
 
@@ -265,12 +265,12 @@ external interface JQueryEasingFunctions {
     var swing: JQueryEasingFunction
 }
 
-external interface `T$0` {
+internal external interface `T$0` {
     var slow: Number
     var fast: Number
 }
 
-external interface `T$1` {
+internal external interface `T$1` {
     var tick: () -> Unit
     var interval: Number
     var stop: () -> Unit
@@ -279,7 +279,7 @@ external interface `T$1` {
     var step: Any
 }
 
-external interface JQueryStatic {
+internal external interface JQueryStatic {
     fun ajax(settings: JQueryAjaxSettings): JQueryXHR
     fun ajax(url: String, settings: JQueryAjaxSettings? = definedExternally /* null */): JQueryXHR
     fun ajaxPrefilter(dataTypes: String, handler: (opts: Any, originalOpts: JQueryAjaxSettings, jqXHR: JQueryXHR) -> Any)
@@ -386,7 +386,7 @@ external interface JQueryStatic {
     fun parseHTML(data: String, context: Document? = definedExternally /* null */, keepScripts: Boolean? = definedExternally /* null */): Array<Any>
 }
 
-external interface JQuery {
+internal external interface JQuery {
     fun ajaxComplete(handler: (event: JQueryEventObject, XMLHttpRequest: XMLHttpRequest, ajaxOptions: Any) -> Any): JQuery
     fun ajaxError(handler: (event: JQueryEventObject, jqXHR: JQueryXHR, ajaxSettings: JQueryAjaxSettings, thrownError: Any) -> Any): JQuery
     fun ajaxSend(handler: (event: JQueryEventObject, jqXHR: JQueryXHR, ajaxOptions: JQueryAjaxSettings) -> Any): JQuery
@@ -803,6 +803,6 @@ external interface JQuery {
     fun queue(queueName: String, callback: Function<*>): JQuery
 }
 
-external var jQuery: JQueryStatic = definedExternally
+internal external var jQuery: JQueryStatic = definedExternally
 @JsModule("co/zsmb/webmain/myJquerywebmain/myJquery")
-external val `$`: JQueryStatic = definedExternally
+internal external val `$`: JQueryStatic = definedExternally

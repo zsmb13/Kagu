@@ -1,6 +1,6 @@
-package co.zsmb.weblib.core.dom
+package co.zsmb.weblib.internals.dom
 
-import co.zsmb.weblib.core.jquery.JQ
+import co.zsmb.weblib.internals.jquery.JQ
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList

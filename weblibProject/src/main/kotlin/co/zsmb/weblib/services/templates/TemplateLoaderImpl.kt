@@ -1,8 +1,8 @@
 package co.zsmb.weblib.services.templates
 
-import co.zsmb.weblib.core.jquery.JQ.parseHTML
-import co.zsmb.weblib.core.jquery.JQueryAjaxSettings
-import co.zsmb.weblib.core.jquery.jQuery
+import co.zsmb.weblib.internals.jquery.JQ.parseHTML
+import co.zsmb.weblib.internals.jquery.JQueryAjaxSettings
+import co.zsmb.weblib.internals.jquery.jQuery
 import org.w3c.dom.HTMLElement
 
 private typealias Callback = (HTMLElement) -> Unit

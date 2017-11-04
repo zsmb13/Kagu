@@ -1,7 +1,6 @@
-package co.zsmb.weblib.core.util
+package co.zsmb.weblib.core
 
-import co.zsmb.weblib.core.Controller
-import co.zsmb.weblib.core.jquery.JQ
+import co.zsmb.weblib.internals.jquery.JQ
 import kotlin.reflect.KProperty
 
 fun <T> Controller.lookup(id: String): LookupDelegate<T> {

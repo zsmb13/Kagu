@@ -1,6 +1,6 @@
 package co.zsmb.weblib.services.pathparams
 
-import co.zsmb.weblib.core.routing.Router
+import co.zsmb.weblib.internals.routing.Router
 
 internal object PathParamsImpl : PathParams {
 

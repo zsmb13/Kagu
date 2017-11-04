@@ -1,11 +1,9 @@
-package co.zsmb.weblib.core.dom
+package co.zsmb.weblib.internals.dom
 
 import co.zsmb.weblib.core.Component
 import co.zsmb.weblib.core.Controller
-import co.zsmb.weblib.core.Selector
 import co.zsmb.weblib.core.di.inject
-import co.zsmb.weblib.core.routing.ComponentCache
-import co.zsmb.weblib.core.routing.Router
+import co.zsmb.weblib.internals.routing.Router
 import co.zsmb.weblib.services.templates.TemplateLoader
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
@@ -15,11 +13,11 @@ import kotlin.browser.document
 internal object DomInjector {
 
     private lateinit var selectors: Set<String>
-    private lateinit var compsMap: Map<Selector, Component>
+    private lateinit var compsMap: Map<String, Component>
 
     private val templateLoader by inject<TemplateLoader>()
 
-    fun init(selectors: Set<String>, compsMap: Map<Selector, Component>) {
+    fun init(selectors: Set<String>, compsMap: Map<String, Component>) {
         DomInjector.selectors = selectors
         DomInjector.compsMap = compsMap
     }

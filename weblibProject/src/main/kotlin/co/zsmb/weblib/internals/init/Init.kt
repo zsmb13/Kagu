@@ -1,9 +1,9 @@
-package co.zsmb.weblib.core.init
+package co.zsmb.weblib.internals.init
 
 import co.zsmb.koinjs.dsl.module.Module
 import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.dom.DomInjector
-import co.zsmb.weblib.core.routing.Router
+import co.zsmb.weblib.internals.dom.DomInjector
+import co.zsmb.weblib.internals.routing.Router
 import co.zsmb.weblib.services.http.HttpServiceModule
 import co.zsmb.weblib.services.logging.LoggerModule
 import co.zsmb.weblib.services.messaging.MessageModule
@@ -29,7 +29,7 @@ internal fun addDefaultModules(modules: MutableSet<Module>) {
     modules += TemplateModule
 }
 
-fun initAsync(comps: Set<Component>, afterInitActions: () -> Unit) = onLoad {
+internal fun initAsync(comps: Set<Component>, afterInitActions: () -> Unit) = onLoad {
 
     Router.cleanUrl()
 
