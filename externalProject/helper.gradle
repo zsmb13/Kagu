@@ -5,6 +5,7 @@ compileKotlin2Js {
     kotlinOptions {
         outputFile = "$outDir/external.js"
         sourceMap = true
+        sourceMapEmbedSources = "always"
         moduleKind = "umd"
     }
 }

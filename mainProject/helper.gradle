@@ -3,6 +3,7 @@ def rootPckg = rootPackage.replace('.', '/')
 compileKotlin2Js {
     kotlinOptions {
         sourceMap = true
+        sourceMapEmbedSources = "always"
         outputFile = "${buildDir}/app.js"
         suppressWarnings = true
         verbose = true
@@ -20,7 +21,10 @@ build.doLast {
 
     // copies app.js into webdir
     copy {
-        from compileKotlin2Js.kotlinOptions.outputFile
+        from (buildDir) {
+            include "*.js"
+            include "*.js.map"
+        }
         into "${webDir}"
     }
 
@@ -50,9 +54,11 @@ build.doLast {
 
         from("$projectDir/src/main/js") {
             include '**/*.js'
+            include '**/*.js.map'
         }
         from("$projectDir/lib") {
             include '**/*.js'
+            include '**/*.js.map'
         }
         into "$webDir/js"
     }
@@ -74,6 +80,7 @@ build.doLast {
 
                 from(zipTree(file.absolutePath)) {
                     include '**/*.js'
+                    include '**/*.js.map'
                     include '**/*.html'
                     include '**/*.css'
                     exclude '*.css'

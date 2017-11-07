@@ -17,6 +17,7 @@ compileKotlin2Js {
     kotlinOptions {
         outputFile = "$outDir/weblib.js"
         sourceMap = true
+        sourceMapEmbedSources = "always"
         moduleKind = "umd"
     }
 }
@@ -61,6 +62,10 @@ artifacts {
 // Library
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from(outDir) {
+        include "*.js.map"
+    }
 
     manifest {
         attributes(
