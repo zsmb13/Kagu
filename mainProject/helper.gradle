@@ -20,12 +20,29 @@ jar.enabled = false
 build.doLast {
 
     // copies app.js into webdir
-    copy {
-        from (buildDir) {
-            include "*.js"
-            include "*.js.map"
+    if (dceEnabled) {
+        copy {
+            from "$buildDir/min/app.js"
+            from "$buildDir/min/app.js.map"
+            into "${webDir}"
         }
-        into "${webDir}"
+        copy {
+            from("$buildDir/min") {
+                include "*.js"
+                include "*.js.map"
+                exclude "app.js"
+                exclude "app.js.map"
+            }
+            into "$webDir/js"
+        }
+    } else {
+        copy {
+            from(buildDir) {
+                include "*.js"
+                include "*.js.map"
+            }
+            into webDir
+        }
     }
 
     // copies own .html and .css files into webdir
@@ -68,19 +85,21 @@ build.doLast {
 
         def isModule = false
         zipTree(file.absolutePath).visit { FileVisitDetails details ->
-            if(details.file.name == "module-marker") {
+            if (details.file.name == "module-marker") {
                 isModule = true
             }
         }
 
-        if(isModule) {
+        if (isModule) {
             // copy module contents (js, html, css) to webdir/components
             copy {
                 includeEmptyDirs = false
 
                 from(zipTree(file.absolutePath)) {
-                    include '**/*.js'
-                    include '**/*.js.map'
+                    if (!dceEnabled) {
+                        include '**/*.js'
+                        include '**/*.js.map'
+                    }
                     include '**/*.html'
                     include '**/*.css'
                     exclude '*.css'
@@ -96,15 +115,25 @@ build.doLast {
             }
         } else {
             // copy any non-module dependency's contents (js) to webdir/js
+            println file.name
             copy {
                 includeEmptyDirs = false
 
-                from zipTree(file.absolutePath)
-                into "$webDir/js"
-                include { fileTreeElement ->
-                    def path = fileTreeElement.path
-                    path.endsWith(".js")
+                if (!dceEnabled) {
+                    from(zipTree(file.absolutePath)) {
+                        include '*.js'
+                        include '*.js.map'
+                    }
+                } else {
+                    from("$buildDir/min") {
+                        include '*.js'
+                        include '*.js.map'
+                        exclude 'app.js'
+                        exclude 'app.js.map'
+                    }
                 }
+
+                into "$webDir/js"
             }
         }
     }
