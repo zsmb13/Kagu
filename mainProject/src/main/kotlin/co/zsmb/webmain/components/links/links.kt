@@ -21,7 +21,7 @@ class LinksController : Controller() {
     val logger by inject<Logger>()
 
     override fun onCreate() {
-        println("LinksController init")
+        logger.d(this, "Created")
 
         logger.d(this, "Cookie is: ${cookieStorage["cookieKey"]}")
         logger.d(this, "Cookie is: ${cookieStorage["cookieKey2"]}")

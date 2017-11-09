@@ -23,5 +23,6 @@ dependencies {
 }
 
 ext.rootPackage = "co.zsmb.webmain"
+ext.dceEnabled = false
 
 apply from: "helper.gradle"

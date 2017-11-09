@@ -22,3 +22,15 @@ fun HTMLElement.onDoubleClick(actions: (Event) -> Unit) {
 fun HTMLElement.onFocus(actions: (Event) -> Unit) {
     onfocus = actions
 }
+
+fun HTMLElement.onKeyDown(actions: (Event) -> Unit) {
+    onkeydown = actions
+}
+
+fun HTMLElement.onKeyUp(actions: (Event) -> Unit) {
+    onkeyup = actions
+}
+
+fun HTMLElement.onKeyPress(actions: (Event) -> Unit) {
+    onkeypress = actions
+}
