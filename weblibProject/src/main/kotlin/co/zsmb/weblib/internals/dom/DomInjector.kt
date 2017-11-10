@@ -76,7 +76,7 @@ internal object DomInjector {
     }
 
     internal fun initLinks(root: Node) {
-        val linkAttr = "data-href"
+        val linkAttr = "data-kt-href"
 
         root.visitSubtreeThat(
                 predicate = { it.nodeName == "a".toUpperCase() },
@@ -86,7 +86,7 @@ internal object DomInjector {
                     val ref = a.getAttribute(linkAttr) ?: return@visitSubtreeThat
 
                     a.setAttribute("href", "#$ref")
-                    a.removeAttribute("data-href")
+                    a.removeAttribute("data-kt-href")
                     a.onclick = {
                         it.preventDefault()
                         Router.navigateTo(ref)
