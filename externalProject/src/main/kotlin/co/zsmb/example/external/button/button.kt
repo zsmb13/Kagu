@@ -44,8 +44,4 @@ class ButtonController : Controller() {
         logger.d(this, "onRemoved")
     }
 
-    override fun onDestroy() {
-        logger.d(this, "onDestroy")
-    }
-
 }

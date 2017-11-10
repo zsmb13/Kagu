@@ -12,6 +12,4 @@ abstract class Controller {
 
     open fun onRemoved() {}
 
-    open fun onDestroy() {}
-
 }
