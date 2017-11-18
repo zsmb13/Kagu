@@ -1,12 +1,5 @@
 package co.zsmb.webmain.components.links
 
-import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.Controller
-import co.zsmb.weblib.core.di.inject
-import co.zsmb.weblib.services.logging.Logger
-import co.zsmb.weblib.services.storage.CookieStorage
-import co.zsmb.weblib.services.storage.LocalStorage
-
 object LinksComponent : Component(
         selector = "links-component",
         templateUrl = "components/links/links.html",

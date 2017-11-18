@@ -1,0 +1,90 @@
+buildscript {
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin2js'
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "co.zsmb:koinjs:0.1.2"
+}
+
+def outDir = "$buildDir/kotlin2js/main"
+
+compileKotlin2Js {
+    kotlinOptions {
+        outputFile = "$outDir/kagu.js"
+        sourceMap = true
+        sourceMapEmbedSources = "always"
+        moduleKind = "umd"
+    }
+}
+
+def rootPackage = "co.zsmb.kagu"
+def rootPckg = rootPackage.replace('.', '/')
+
+
+// Local deployment vars
+def kagu_version = "0.0.1"
+def moduleName = "kaguProject"
+def localRepo = project.hasProperty('localRepository') ? localRepository : '.'
+def targetDir = "$localRepo/$rootPckg/$kagu_version"
+
+
+// Sources
+task jarSources(type: Jar) {
+    from(sourceSets.main.allSource) {
+        include "**/*.kt"
+    }
+    classifier = 'source'
+}
+
+jarSources {
+    if (!devMode.toBoolean()) {
+        doLast {
+            new File(targetDir).mkdirs()
+            copy {
+                from "$buildDir/libs/${moduleName}-source.jar"
+                into targetDir
+                rename "${moduleName}-source.jar", "kagu-${kagu_version}-sources.jar"
+            }
+        }
+    }
+}
+
+artifacts {
+    archives jarSources
+}
+
+
+// Library
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from(outDir) {
+        include "*.js.map"
+    }
+
+    manifest {
+        attributes(
+                "Specification-Title": "Kagu web framework",
+                "Kotlin-JS-Module-Name": "Kagu"
+        )
+    }
+
+    if (!devMode.toBoolean()) {
+        doLast {
+            new File(targetDir).mkdirs()
+
+            copy {
+                from "$buildDir/libs/${moduleName}.jar"
+                into targetDir
+                rename "${moduleName}.jar", "kagu-${kagu_version}.jar"
+            }
+        }
+    }
+}
+
+apply from: 'test.gradle'

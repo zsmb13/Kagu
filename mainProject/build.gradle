@@ -13,11 +13,11 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
 
     if (devMode.toBoolean()) {
-        compile project(":weblibProject")
+        compile project(":kaguProject")
         compile project(":externalProject")
     } else {
         compile "co.zsmb:koinjs:0.1.2"
-        compile "co.zsmb:weblib:0.0.1"
+        compile "co.zsmb:kagu:0.0.1"
         compile "co.zsmb.example:external:0.1.0"
     }
 }

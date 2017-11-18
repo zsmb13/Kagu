@@ -1,13 +1,5 @@
 package co.zsmb.webmain.components.testButtons
 
-import co.zsmb.weblib.core.Component
-import co.zsmb.weblib.core.Controller
-import co.zsmb.weblib.core.di.inject
-import co.zsmb.weblib.core.dom.onClick
-import co.zsmb.weblib.core.findById
-import co.zsmb.weblib.core.lookup
-import co.zsmb.weblib.services.logging.Logger
-import co.zsmb.weblib.services.messaging.MessageBroker
 import co.zsmb.webmain.services.HttpTestService
 import org.w3c.dom.HTMLButtonElement
 import kotlin.browser.window
@@ -38,7 +30,7 @@ class TestButtonsController : Controller() {
 
         fetch.onClick {
             println(poService.hashCode())
-            poService.getPublicObject()
+            poService.performTest()
         }
 
         btn.onClick {
