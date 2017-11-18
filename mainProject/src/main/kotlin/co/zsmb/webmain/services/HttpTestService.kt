@@ -1,5 +1,8 @@
 package co.zsmb.webmain.services
 
+import co.zsmb.kagu.services.http.HttpService
+import co.zsmb.kagu.services.logging.Logger
+
 class HttpTestService(val logger: Logger, val httpService: HttpService) {
 
     fun performTest() {

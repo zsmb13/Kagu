@@ -13,7 +13,7 @@ dependencies {
         compile project(":kaguProject")
     } else {
         compile "co.zsmb:kagu:0.0.1"
-        compile "co.zsmb:koinjs:0.1.2"
+        compile "co.zsmb:koinjs:0.1.3"
     }
 }
 

@@ -1,5 +1,12 @@
 package co.zsmb.webmain.components.links
 
+import co.zsmb.kagu.core.Component
+import co.zsmb.kagu.core.Controller
+import co.zsmb.kagu.core.di.inject
+import co.zsmb.kagu.services.logging.Logger
+import co.zsmb.kagu.services.storage.CookieStorage
+import co.zsmb.kagu.services.storage.LocalStorage
+
 object LinksComponent : Component(
         selector = "links-component",
         templateUrl = "components/links/links.html",

@@ -1,5 +1,13 @@
 package co.zsmb.webmain.components.testButtons
 
+import co.zsmb.kagu.core.Component
+import co.zsmb.kagu.core.Controller
+import co.zsmb.kagu.core.di.inject
+import co.zsmb.kagu.core.dom.onClick
+import co.zsmb.kagu.core.findById
+import co.zsmb.kagu.core.lookup
+import co.zsmb.kagu.services.logging.Logger
+import co.zsmb.kagu.services.messaging.MessageBroker
 import co.zsmb.webmain.services.HttpTestService
 import org.w3c.dom.HTMLButtonElement
 import kotlin.browser.window

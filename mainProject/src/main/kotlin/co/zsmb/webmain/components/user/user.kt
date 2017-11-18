@@ -1,5 +1,10 @@
 package co.zsmb.webmain.components.user
 
+import co.zsmb.kagu.core.Component
+import co.zsmb.kagu.core.Controller
+import co.zsmb.kagu.core.di.inject
+import co.zsmb.kagu.core.lookup
+import co.zsmb.kagu.services.pathparams.PathParams
 import org.w3c.dom.HTMLDivElement
 
 object UserComponent : Component(
