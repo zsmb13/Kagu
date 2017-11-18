@@ -1,5 +1,11 @@
 package co.zsmb.example.external.button
 
+import co.zsmb.kagu.core.Component
+import co.zsmb.kagu.core.Controller
+import co.zsmb.kagu.core.di.inject
+import co.zsmb.kagu.core.dom.onClick
+import co.zsmb.kagu.core.lookup
+import co.zsmb.kagu.services.logging.Logger
 import org.w3c.dom.HTMLButtonElement
 
 object ButtonComponent : Component(
