@@ -1,24 +1,26 @@
 package co.zsmb.kagu.services.logging
 
-import co.zsmb.kagu.core.Controller
-import co.zsmb.kagu.core.di.inject
-
 internal object LoggerImpl : Logger {
 
-    override fun d(message: String) = console.log("[D] $message")
+    override fun i(message: String) = log("I", message)
 
-    override fun d(source: Any, message: String) {
+    override fun i(source: Any, message: String) = log("I", source, message)
+
+    override fun v(message: String) = log("V", message)
+
+    override fun v(source: Any, message: String) = log("V", source, message)
+
+    override fun d(message: String) = log("D", message)
+
+    override fun d(source: Any, message: String) = log("D", source, message)
+
+    private fun log(prefix: String, message: String) {
+        console.log("[$prefix]: $message")
+    }
+
+    private fun log(prefix: String, source: Any, message: String) {
         val sourceName = source::class.simpleName
-        console.log("[D/$sourceName]: $message")
+        console.log("[$prefix/$sourceName]: $message")
     }
 
-}
-
-class LoggerTestController : Controller() {
-    private val logger by inject<Logger>()
-
-    override fun onCreate() {
-        super.onCreate()
-        logger.d(this, "Created")
-    }
 }
