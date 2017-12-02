@@ -10,3 +10,7 @@ _A basic Kotlin JS web framework_
 - `devMode`
     
     boolean value; `true` makes the Gradle modules depend on each other directly for easy navigation and editing of all modules, while `false` makes projects reference dependencies that are in `mavenLocal()`, to simulate pulling in every module as a separate Gradle dependency
+
+### Publishing Kagu to mavenLocal
+
+If the `localRepository` is set as described above, running `gradlew kaguProject:build` will both build and publish Kagu to the local maven repository. 
