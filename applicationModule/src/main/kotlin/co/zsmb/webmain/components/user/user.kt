@@ -17,13 +17,15 @@ class UserController : Controller() {
 
     val pathParams by inject<PathParams>()
     val userId = pathParams.getInt("userId")
+    val groupId = pathParams.getInt("groupId")
 
+    val groupIdDisplay by lookup<HTMLDivElement>("group-id-div")
     val userIdDisplay by lookup<HTMLDivElement>("user-id-div")
 
     override fun onCreate() {
         println("UserController init")
-        println("userId is $userId")
-        userIdDisplay.innerText = "user id is $userId"
+        groupIdDisplay.innerText = "Group id: $groupId"
+        userIdDisplay.innerText = "User id: $userId"
     }
 
 }

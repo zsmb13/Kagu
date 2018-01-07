@@ -2,7 +2,6 @@ package co.zsmb.webmain
 
 import co.zsmb.example.external.button.ButtonComponent
 import co.zsmb.kagu.core.init.application
-import co.zsmb.webmain.components.links.LinksComponent
 import co.zsmb.webmain.components.menu.MenuComponent
 import co.zsmb.webmain.components.testButtons.TestButtonsComponent
 import co.zsmb.webmain.components.user.UserComponent
@@ -17,7 +16,6 @@ fun main(args: Array<String>) = application {
     components {
         +UserComponent
         +MenuComponent
-        +LinksComponent
         +ButtonComponent
         +TestButtonsComponent
     }
@@ -27,21 +25,17 @@ fun main(args: Array<String>) = application {
             path = "/groups/:groupId/user/:userId"
             handler = UserComponent
         }
-        state {
-            path = "/secondButton"
-            handler = ButtonComponent
-        }
-        state {
-            path = "/button"
-            handler = ButtonComponent
-        }
-        state {
-            path = "/cssbuttons"
-            handler = TestButtonsComponent
-        }
         defaultState {
-            path = "/links"
-            handler = LinksComponent
+            path = "/button1"
+            handler = ButtonComponent
+        }
+        state {
+            path = "/button2"
+            handler = ButtonComponent
+        }
+        state {
+            path = "/testButtons"
+            handler = TestButtonsComponent
         }
     }
 

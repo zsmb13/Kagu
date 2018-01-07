@@ -42,20 +42,22 @@ class TestButtonsController : Controller() {
         }
 
         btn.onClick {
+            logger.d(this, "Alert btn clicked")
             window.alert("clicked!")
-            logger.d(this, "btn clicked")
         }
 
         val listener = { msg: Any ->
-            logger.d(this, "got msg: $msg")
+            logger.d(this, "Got message: $msg")
         }
 
         btnSub.onClick {
             messageBroker.subscribe("test", listener)
+            logger.d(this, "Subscribed")
         }
 
         btnUnsub.onClick {
             messageBroker.unsubscribe("test", listener)
+            logger.d(this, "Unsubscribed")
         }
 
         findById<HTMLButtonElement>("sendBtn").onclick = {
