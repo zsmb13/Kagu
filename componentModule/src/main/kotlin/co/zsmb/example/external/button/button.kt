@@ -16,7 +16,7 @@ object ButtonComponent : Component(
 
 class ButtonController : Controller() {
 
-    private val btn by lookup<HTMLButtonElement>("myButton")
+    private val btn by lookup<HTMLButtonElement>("specialButton")
 
     private val logger by inject<Logger>()
 
@@ -24,7 +24,7 @@ class ButtonController : Controller() {
 
     override fun onCreate() {
         btn.onClick {
-            logger.d(this, "Button clicked ${++clicks} times")
+            logger.d(this, "Special button clicked ${++clicks} times")
         }
     }
 
