@@ -28,7 +28,7 @@ def rootPckg = rootPackage.replace('.', '/')
 
 // Local deployment vars
 def kagu_version = "0.0.1"
-def moduleName = "kaguProject"
+def moduleName = "framework"
 def localRepo = project.hasProperty('localRepository') ? localRepository : '.'
 def targetDir = "$localRepo/$rootPckg/$kagu_version"
 

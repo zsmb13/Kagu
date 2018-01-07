@@ -13,4 +13,4 @@ _A basic Kotlin JS web framework_
 
 ### Publishing Kagu to mavenLocal
 
-If the `localRepository` is set as described above, running `gradlew kaguProject:build` will both build and publish Kagu to the local maven repository. 
+If the `localRepository` is set as described above, running `gradlew framework:build` will both build and publish Kagu to the local maven repository. 

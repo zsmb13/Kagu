@@ -10,7 +10,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
 
     if (devMode.toBoolean()) {
-        compile project(":kaguProject")
+        compile project(":framework")
     } else {
         compile "co.zsmb:kagu:0.0.1"
         compile "co.zsmb:koinjs:0.1.3"

@@ -1,4 +1,4 @@
 rootProject.name = 'Kagu'
-include 'kaguProject'
-include 'externalProject'
-include 'mainProject'
+include 'framework'
+include 'componentModule'
+include 'applicationModule'
