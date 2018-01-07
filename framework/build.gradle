@@ -5,10 +5,11 @@ buildscript {
 }
 
 apply plugin: 'kotlin2js'
+apply plugin: 'maven-publish'
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile "co.zsmb:koinjs:0.1.3"
+    compile "co.zsmb:koinjs:$koinjs_version"
 }
 
 def outDir = "$buildDir/kotlin2js/main"
@@ -22,42 +23,17 @@ compileKotlin2Js {
     }
 }
 
-def rootPackage = "co.zsmb.kagu"
-def rootPckg = rootPackage.replace('.', '/')
-
-
-// Local deployment vars
-def kagu_version = "0.0.1"
-def moduleName = "framework"
-def localRepo = project.hasProperty('localRepository') ? localRepository : '.'
-def targetDir = "$localRepo/$rootPckg/$kagu_version"
-
-
 // Sources
 task jarSources(type: Jar) {
     from(sourceSets.main.allSource) {
         include "**/*.kt"
     }
-    classifier = 'source'
-}
-
-jarSources {
-    if (!devMode.toBoolean()) {
-        doLast {
-            new File(targetDir).mkdirs()
-            copy {
-                from "$buildDir/libs/${moduleName}-source.jar"
-                into targetDir
-                rename "${moduleName}-source.jar", "kagu-${kagu_version}-sources.jar"
-            }
-        }
-    }
+    classifier = 'sources'
 }
 
 artifacts {
     archives jarSources
 }
-
 
 // Library
 jar {
@@ -66,23 +42,17 @@ jar {
     from(outDir) {
         include "*.js.map"
     }
+}
 
-    manifest {
-        attributes(
-                "Specification-Title": "Kagu web framework",
-                "Kotlin-JS-Module-Name": "Kagu"
-        )
-    }
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId "co.zsmb"
+            artifactId "kagu"
+            version "0.2.0"
 
-    if (!devMode.toBoolean()) {
-        doLast {
-            new File(targetDir).mkdirs()
-
-            copy {
-                from "$buildDir/libs/${moduleName}.jar"
-                into targetDir
-                rename "${moduleName}.jar", "kagu-${kagu_version}.jar"
-            }
+            artifact jar
+            artifact jarSources
         }
     }
 }

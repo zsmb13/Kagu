@@ -85,7 +85,7 @@ build.doLast {
 
         def isModule = false
         zipTree(file.absolutePath).visit { FileVisitDetails details ->
-            if (details.file.name == "module-marker") {
+            if (details.file.name == "component-module-marker") {
                 isModule = true
             }
         }

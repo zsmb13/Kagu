@@ -16,9 +16,9 @@ dependencies {
         compile project(":framework")
         compile project(":componentModule")
     } else {
-        compile "co.zsmb:koinjs:0.1.3"
-        compile "co.zsmb:kagu:0.0.1"
-        compile "co.zsmb.example:external:0.1.0"
+        compile "co.zsmb:koinjs:$koinjs_version"
+        compile "co.zsmb:kagu:0.2.0"
+        compile "co.zsmb.example:external:0.2.0"
     }
 }
 
