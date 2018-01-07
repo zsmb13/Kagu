@@ -4,6 +4,9 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.jfrog.bintray" version "1.7.3"
+}
 apply plugin: 'kotlin2js'
 apply plugin: 'maven-publish'
 
@@ -44,15 +47,35 @@ jar {
     }
 }
 
+def GROUP_ID = 'co.zsmb'
+def ARTIFACT_ID = 'kagu'
+def VERSION = '0.2.0'
+
 publishing {
     publications {
-        maven(MavenPublication) {
-            groupId "co.zsmb"
-            artifactId "kagu"
-            version "0.2.0"
+        framework(MavenPublication) {
+            groupId GROUP_ID
+            artifactId ARTIFACT_ID
+            version VERSION
 
             artifact jar
             artifact jarSources
+        }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('bintrayUser')
+    key = project.hasProperty('bintrayKey') ? project.property('bintrayKey') : System.getenv('bintrayKey')
+    publications = ['framework']
+
+    pkg {
+        repo = 'Kagu'
+        name = 'Kagu'
+
+        version {
+            name = VERSION
+            released = new Date()
         }
     }
 }
