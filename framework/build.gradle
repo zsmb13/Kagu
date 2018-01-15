@@ -49,7 +49,7 @@ jar {
 
 def GROUP_ID = 'co.zsmb'
 def ARTIFACT_ID = 'kagu'
-def VERSION = '0.2.0'
+def VERSION = kagu_version
 
 publishing {
     publications {

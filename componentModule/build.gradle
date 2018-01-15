@@ -13,7 +13,7 @@ dependencies {
     if (devMode.toBoolean()) {
         compile project(":framework")
     } else {
-        compile "co.zsmb:kagu:0.2.0"
+        compile "co.zsmb:kagu:$kagu_version"
         compile "co.zsmb:koinjs:$koinjs_version"
     }
 }
