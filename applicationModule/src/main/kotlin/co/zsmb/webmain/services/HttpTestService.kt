@@ -8,7 +8,7 @@ class HttpTestService(val logger: Logger, val httpService: HttpService) {
     fun performTest() {
         httpService.get("https://cors-test.appspot.com/test",
                 onSuccess = { response ->
-                    logger.d(this, JSON.stringify(response))
+                    logger.d(this, "Http response: ${JSON.stringify(response)}")
                 },
                 onError = { error ->
                     logger.d(this, "Http error: $error")
