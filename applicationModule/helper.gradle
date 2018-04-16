@@ -27,7 +27,7 @@ build.doLast {
             into "${webDir}"
         }
         copy {
-            from("$buildDir/min") {
+            from("$buildDir/kotlin-js-min/main/") {
                 include "*.js"
                 include "*.js.map"
                 exclude "app.js"
@@ -125,7 +125,7 @@ build.doLast {
                         include '*.js.map'
                     }
                 } else {
-                    from("$buildDir/min") {
+                    from("$buildDir/kotlin-js-min") {
                         include '*.js'
                         include '*.js.map'
                         exclude 'app.js'
