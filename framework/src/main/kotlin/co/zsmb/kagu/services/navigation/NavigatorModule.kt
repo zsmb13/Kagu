@@ -5,9 +5,7 @@ import co.zsmb.koinjs.dsl.module.Module
 internal object NavigatorModule : Module() {
 
     override fun context() = declareContext {
-        provide { createNavigator() }
+        provide { NavigatorImpl as Navigator }
     }
-
-    private fun createNavigator(): Navigator = NavigatorImpl
 
 }

@@ -5,9 +5,7 @@ import co.zsmb.koinjs.dsl.module.Module
 internal object PathParamsModule : Module() {
 
     override fun context() = declareContext {
-        provide { providePathParams() }
+        provide { PathParamsImpl as PathParams }
     }
-
-    private fun providePathParams(): PathParams = PathParamsImpl
 
 }

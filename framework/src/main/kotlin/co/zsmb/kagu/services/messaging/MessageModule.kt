@@ -5,9 +5,7 @@ import co.zsmb.koinjs.dsl.module.Module
 internal object MessageModule : Module() {
 
     override fun context() = declareContext {
-        provide { createMessageBroker() }
+        provide { MessageBrokerImpl as MessageBroker }
     }
-
-    fun createMessageBroker(): MessageBroker = MessageBrokerImpl
 
 }

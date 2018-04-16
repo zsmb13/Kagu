@@ -3,6 +3,7 @@ package co.zsmb.kagu.internals.init
 import co.zsmb.kagu.core.Component
 import co.zsmb.kagu.internals.dom.DomInjector
 import co.zsmb.kagu.internals.routing.Router
+import co.zsmb.kagu.services.attributes.AttributesModule
 import co.zsmb.kagu.services.http.HttpServiceModule
 import co.zsmb.kagu.services.logging.LoggerModule
 import co.zsmb.kagu.services.messaging.MessageModule
@@ -20,6 +21,7 @@ private fun onLoad(actions: (Event) -> Unit) {
 }
 
 internal fun addDefaultModules(modules: MutableSet<Module>) {
+    modules += AttributesModule
     modules += HttpServiceModule
     modules += LoggerModule
     modules += MessageModule

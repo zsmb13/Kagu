@@ -33,8 +33,8 @@ internal object DomInjector {
                     val component = compsMap[placeholder.nodeName.toLowerCase()]!!
 
                     templateLoader.get(url = component.templateUrl, callback = { root ->
+                        placeholder.replaceWithAndKeepAttrs(root)
                         initRoot(component, root)
-                        placeholder.replaceWith(root)
                     })
                 }
         )
@@ -50,8 +50,9 @@ internal object DomInjector {
                     val component = compsMap[placeholder.nodeName.toLowerCase()]!!
 
                     templateLoader.get(url = component.templateUrl, callback = { root ->
+                        placeholder.replaceWithAndKeepAttrs(root)
+
                         val ctrl = initRoot(component, root)
-                        placeholder.replaceWith(root)
                         ComponentCache.putController(rootCompNode, ctrl)
 
                         // Subcomponent loaded, check if root component is currently active
@@ -109,12 +110,9 @@ internal object DomInjector {
         }
 
         templateLoader.get(url = component.templateUrl, callback = { root ->
-            val controller = initRoot(component, root)
-
             injectSubcomponentsAsyncWithCaching(root)
 
             ComponentCache.putNode(route, root)
-            ComponentCache.putController(root, controller)
 
             injectCachedRoute(route)
         })

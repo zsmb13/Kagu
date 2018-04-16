@@ -6,12 +6,8 @@ import co.zsmb.koinjs.dsl.module.Module
 internal object StorageModule : Module() {
 
     override fun context() = MessageModule.declareContext {
-        provide { createLocalStorage() }
-        provide { createCookieStorage() }
+        provide { LocalStorageImpl as LocalStorage }
+        provide { CookieStorageImpl as CookieStorage }
     }
-
-    fun createLocalStorage(): LocalStorage = LocalStorageImpl
-
-    fun createCookieStorage(): CookieStorage = CookieStorageImpl
 
 }

@@ -5,9 +5,7 @@ import co.zsmb.koinjs.dsl.module.Module
 internal object TemplateModule : Module() {
 
     override fun context() = declareContext {
-        provide { provideTemplateLoader() }
+        provide { TemplateLoaderImpl as TemplateLoader }
     }
-
-    private fun provideTemplateLoader(): TemplateLoader = TemplateLoaderImpl
 
 }

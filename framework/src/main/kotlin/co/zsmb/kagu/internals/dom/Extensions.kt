@@ -1,10 +1,7 @@
 package co.zsmb.kagu.internals.dom
 
 import co.zsmb.kagu.internals.jquery.JQ
-import org.w3c.dom.Element
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
-import org.w3c.dom.get
+import org.w3c.dom.*
 
 internal inline fun NodeList.forEach(function: (Node) -> Unit) {
     for (i in 0 until this.length) {
@@ -71,6 +68,21 @@ internal fun Node.visitBreadthFirst(action: (Node) -> Unit) {
 internal fun Node.replaceWith(replacement: Node) {
     this as Element
     this.replaceWith(replacement)
+}
+
+internal fun Node.replaceWithAndKeepAttrs(replacement: HTMLElement) {
+    this as HTMLElement
+    this.attributes.forEach {
+        val clonedAttr = it.cloneNode(true) as Attr
+        replacement.attributes.setNamedItem(clonedAttr)
+    }
+    this.replaceWith(replacement)
+}
+
+internal fun NamedNodeMap.forEach(action: (Attr) -> Unit) {
+    for (i in 0 until length) {
+        action(get(i)!!)
+    }
 }
 
 internal fun Node.removeChildren() {
