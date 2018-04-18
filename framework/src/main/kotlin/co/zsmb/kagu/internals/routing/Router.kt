@@ -101,7 +101,7 @@ internal object Router {
         while (pathCopy.contains(':')) {
             val param = pathCopy.substringAfter(':').substringBefore('/')
             params += param
-            pathCopy = pathCopy.replace(":$param", "(\\w+)")
+            pathCopy = pathCopy.replace(":$param", "([\\w-]+)")
         }
 
         val regex = Regex(pathCopy.replace("/", "\\/"))
