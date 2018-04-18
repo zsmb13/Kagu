@@ -28,7 +28,7 @@ publishing {
         maven(MavenPublication) {
             groupId "co.zsmb.example"
             artifactId "external"
-            version "0.2.2"
+            version "$kagu_version"
 
             artifact jar
             artifact jarSources
