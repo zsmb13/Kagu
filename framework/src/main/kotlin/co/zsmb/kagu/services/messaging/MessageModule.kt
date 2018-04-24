@@ -1,11 +1,7 @@
 package co.zsmb.kagu.services.messaging
 
-import co.zsmb.koinjs.dsl.module.Module
+import co.zsmb.koinjs.dsl.module.applicationContext
 
-internal object MessageModule : Module() {
-
-    override fun context() = declareContext {
-        provide { MessageBrokerImpl as MessageBroker }
-    }
-
+val MessageModule = applicationContext {
+    bean { MessageBrokerImpl as MessageBroker }
 }

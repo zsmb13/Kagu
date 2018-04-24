@@ -1,11 +1,7 @@
 package co.zsmb.kagu.services.pathparams
 
-import co.zsmb.koinjs.dsl.module.Module
+import co.zsmb.koinjs.dsl.module.applicationContext
 
-internal object PathParamsModule : Module() {
-
-    override fun context() = declareContext {
-        provide { PathParamsImpl as PathParams }
-    }
-
+val PathParamsModule = applicationContext {
+    bean { PathParamsImpl as PathParams }
 }

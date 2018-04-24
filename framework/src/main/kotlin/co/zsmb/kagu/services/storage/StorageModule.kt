@@ -1,13 +1,8 @@
 package co.zsmb.kagu.services.storage
 
-import co.zsmb.kagu.services.messaging.MessageModule
-import co.zsmb.koinjs.dsl.module.Module
+import co.zsmb.koinjs.dsl.module.applicationContext
 
-internal object StorageModule : Module() {
-
-    override fun context() = MessageModule.declareContext {
-        provide { LocalStorageImpl as LocalStorage }
-        provide { CookieStorageImpl as CookieStorage }
-    }
-
+val StorageModule = applicationContext {
+    bean { LocalStorageImpl as LocalStorage }
+    bean { CookieStorageImpl as CookieStorage }
 }

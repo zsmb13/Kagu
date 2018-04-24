@@ -1,11 +1,7 @@
 package co.zsmb.kagu.services.navigation
 
-import co.zsmb.koinjs.dsl.module.Module
+import co.zsmb.koinjs.dsl.module.applicationContext
 
-internal object NavigatorModule : Module() {
-
-    override fun context() = declareContext {
-        provide { NavigatorImpl as Navigator }
-    }
-
+val NavigatorModule = applicationContext {
+    bean { NavigatorImpl as Navigator }
 }

@@ -1,11 +1,7 @@
 package co.zsmb.kagu.services.logging
 
-import co.zsmb.koinjs.dsl.module.Module
+import co.zsmb.koinjs.dsl.module.applicationContext
 
-internal object LoggerModule : Module() {
-
-    override fun context() = declareContext {
-        provide { LoggerImpl as Logger }
-    }
-
+val LoggerModule = applicationContext {
+    bean { LoggerImpl as Logger }
 }
