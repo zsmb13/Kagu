@@ -1,6 +1,5 @@
 package co.zsmb.kagu.internals.routing
 
-import co.zsmb.kagu.internals.util.InternalLogger
 import kotlin.browser.window
 
 class NoHashPathHandler : PathHandler {
@@ -13,8 +12,6 @@ class NoHashPathHandler : PathHandler {
         // removes "index.html", for example
         val path = window.location.pathname.substringBeforeLast('#')
 
-        InternalLogger.d(this, "path is $path")
-
         val protocol = window.location.protocol
         val hostname = window.location.hostname
         val port = window.location.port
@@ -25,8 +22,6 @@ class NoHashPathHandler : PathHandler {
             "$protocol//$hostname:$port"
         }
 
-        InternalLogger.d(this, "base is $base")
-
         val pathWithoutSlashes = path.trim('/')
 
         val newPath =
@@ -35,8 +30,6 @@ class NoHashPathHandler : PathHandler {
                 } else {
                     "$base/$pathWithoutSlashes/"
                 }
-
-        InternalLogger.d(this, "newPath is $newPath")
 
         if (path != newPath) {
             setPath(newPath)
