@@ -3,6 +3,7 @@ package co.zsmb.kagu.services.templates
 import co.zsmb.kagu.internals.jquery.JQ.parseHTML
 import co.zsmb.kagu.internals.jquery.JQueryAjaxSettings
 import co.zsmb.kagu.internals.jquery.jQuery
+import co.zsmb.kagu.internals.routing.Router
 import org.w3c.dom.HTMLElement
 
 private typealias Callback = (HTMLElement) -> Unit
@@ -14,7 +15,9 @@ internal object TemplateLoaderImpl : TemplateLoader {
     private val cache = mutableMapOf<String, String>()
     private val onGoingCalls = mutableMapOf<String, MutableList<Callback>>()
 
-    override fun get(url: String, callback: (HTMLElement) -> Unit) {
+    override fun get(rawUrl: String, callback: (HTMLElement) -> Unit) {
+
+        val url = if (Router.noHashMode) rawUrl.toRootRelativeUrl() else rawUrl
 
         if (cache.containsKey(url)) {
             returnResult(cache[url]!!, callback)
@@ -44,6 +47,8 @@ internal object TemplateLoaderImpl : TemplateLoader {
         }
 
     }
+
+    private fun String.toRootRelativeUrl() = if (this.startsWith('/')) this else "/$this"
 
     private fun returnResult(html: String, callback: (HTMLElement) -> Unit) {
         val elems = parseHTML(html.trim())

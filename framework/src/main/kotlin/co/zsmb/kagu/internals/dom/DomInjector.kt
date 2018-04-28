@@ -27,15 +27,12 @@ internal object DomInjector {
      * HTML contents and creating a new controller for each of them.
      */
     fun injectComponentsAsync(node: Node) {
-        println("injecting subtree of a node")
         node.visitSubtreeThat(
                 predicate = { it.nodeName in selectors },
                 action = { placeholder ->
                     val component = compsMap[placeholder.nodeName.toLowerCase()]!!
-                    println("component fetched for selector ${placeholder.nodeName}")
 
                     templateLoader.get(url = component.templateUrl, callback = { root ->
-                        println("template loaded, replacing node")
                         placeholder.replaceWithAndKeepAttrs(root)
                         initRoot(component, root)
                     })

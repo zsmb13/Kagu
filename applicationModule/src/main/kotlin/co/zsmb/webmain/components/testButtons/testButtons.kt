@@ -8,6 +8,7 @@ import co.zsmb.kagu.core.findById
 import co.zsmb.kagu.core.lookup
 import co.zsmb.kagu.services.logging.Logger
 import co.zsmb.kagu.services.messaging.MessageBroker
+import co.zsmb.kagu.services.navigation.Navigator
 import co.zsmb.webmain.services.HttpTestService
 import org.w3c.dom.HTMLButtonElement
 import kotlin.browser.window
@@ -27,11 +28,12 @@ class TestButtonsController : Controller() {
     val btnSub by lookup<HTMLButtonElement>("subBtn")
     val btnUnsub by lookup<HTMLButtonElement>("unsubBtn")
 
+    val btnNav by lookup<HTMLButtonElement>("navBtn")
+
     val logger by inject<Logger>()
-
     val poService by inject<HttpTestService>()
-
     val messageBroker by inject<MessageBroker>()
+    val navigator by inject<Navigator>()
 
     override fun onCreate() {
         println("TestButtonsController init")
@@ -58,6 +60,10 @@ class TestButtonsController : Controller() {
         btnUnsub.onClick {
             messageBroker.unsubscribe("test", listener)
             logger.d(this, "Unsubscribed")
+        }
+
+        btnNav.onClick {
+            navigator.goto("/groups/123/user/456")
         }
 
         findById<HTMLButtonElement>("sendBtn").onclick = {

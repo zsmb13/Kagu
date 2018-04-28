@@ -1,5 +1,6 @@
 package co.zsmb.kagu.internals.di
 
+import co.zsmb.koinjs.Koin
 import co.zsmb.koinjs.KoinContext
 import co.zsmb.koinjs.dsl.module.Module
 import co.zsmb.koinjs.standalone.StandAloneContext.startKoin
@@ -14,6 +15,9 @@ internal object KaguKoin {
     }
 
     @PublishedApi
-    internal val koin: KoinContext by lazy { startKoin(modules).koinContext }
+    internal val koin: KoinContext by lazy {
+        Koin.logger = NoOpLogger
+        startKoin(modules).koinContext
+    }
 
 }

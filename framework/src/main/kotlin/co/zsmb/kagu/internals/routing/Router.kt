@@ -1,9 +1,9 @@
 package co.zsmb.kagu.internals.routing
 
 import co.zsmb.kagu.core.Component
+import co.zsmb.kagu.core.init.RoutingConfig
 import co.zsmb.kagu.core.init.StateDefinition
 import co.zsmb.kagu.internals.dom.DomInjector
-import kotlin.browser.window
 
 internal object Router {
 
@@ -17,29 +17,26 @@ internal object Router {
 
     lateinit var defaultState: State
 
-    private fun getHash() = window.location.hash
+    lateinit var pathHandler: PathHandler
 
-    internal fun getRoute(): String = getHash().substring(1)
+    var noHashMode: Boolean = false
 
-    private fun setHash(fragment: String) {
-        window.location.hash = fragment
-        refresh()
-    }
+    fun cleanUrl() = pathHandler.cleanUrl()
+    fun getRoute() = pathHandler.getRoute()
 
     fun navigateTo(route: String) {
-        setHash(route)
+        pathHandler.setHash(route)
     }
 
     fun refresh() {
-        cleanUrl()
+        pathHandler.cleanUrl()
 
-        val route = getRoute()
+        val route = pathHandler.getRoute()
 
-        val state = findState(route) ?:
-                run {
-                    setHash(defaultState.path)
-                    return
-                }
+        val state = findState(route) ?: run {
+            pathHandler.setHash(defaultState.path)
+            return
+        }
 
         val matchResult = state.regex.matchEntire(route) ?: throw IllegalStateException("State should match route")
 
@@ -52,40 +49,13 @@ internal object Router {
         DomInjector.injectAppComponentAsync(route, state.component)
     }
 
-    private fun setUrl(url: String) {
-        window.history.replaceState("", "this is the new window title", url)
-    }
 
-    fun cleanUrl() {
-        // removes "index.html", for example
-        val href = window.location.href
-
-        val hash = href
-                .substringAfterLast('#', missingDelimiterValue = "")
-                .trim('/')
-
-        val base = href
-                .substringBeforeLast('#')
-                .dropLastWhile { it != '/' }
-
-        val newHref = if (hash.isBlank()) {
-            "$base#/"
-        } else {
-            "$base#/$hash/"
-        }
-
-        if (href != newHref) {
-            setUrl(newHref)
-        }
-    }
-
-    fun init(states: Set<StateDefinition>, defaultState: StateDefinition) {
+    fun init(states: Set<StateDefinition>, defaultState: StateDefinition, routingConfig: RoutingConfig) {
         Router.states += states.map(this::convertToState)
         Router.defaultState = State(defaultState)
 
-        window.onhashchange = {
-            refresh()
-        }
+        noHashMode = routingConfig.noHashMode
+        pathHandler = if (noHashMode) NoHashPathHandler() else HashPathHandler()
     }
 
     private fun convertToState(it: StateDefinition): State {

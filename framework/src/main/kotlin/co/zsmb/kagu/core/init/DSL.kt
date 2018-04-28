@@ -27,6 +27,8 @@ class SetupRoot {
     private val states = mutableSetOf<StateDefinition>()
     private lateinit var defaultState: StateDefinition
 
+    private lateinit var routingConfig: RoutingConfig
+
     fun components(setup: ComponentCollection.() -> Unit) {
         val collection = ComponentCollection()
         collection.setup()
@@ -39,13 +41,15 @@ class SetupRoot {
         modules += collection.get()
     }
 
-    fun routing(setup: StateCollection.() -> Unit) {
-        val collection = StateCollection()
-        collection.setup()
+    fun routing(setup: RoutingSetup.() -> Unit) {
+        val routingSetup = RoutingSetup()
+        routingSetup.setup()
 
-        val (states, defaultState) = collection.get()
+        val (states, defaultState) = routingSetup.getStateDefinitions()
         this.states += states
         this.defaultState = defaultState
+
+        this.routingConfig = routingSetup.getRoutingConfig()
     }
 
     private val afterInitActions = mutableListOf<() -> Unit>()
@@ -58,7 +62,7 @@ class SetupRoot {
         // MODULES
         addDefaultModules(modules)
         KaguKoin.init(modules)
-        Router.init(states, defaultState)
+        Router.init(states, defaultState, routingConfig)
 
         // COMPONENTS
         initAsync(components) {
@@ -101,7 +105,9 @@ class StateBuilder internal constructor() {
 }
 
 @InitDsl
-class StateCollection internal constructor() {
+class RoutingSetup internal constructor() {
+
+    private val routingConfig = RoutingConfig()
 
     private lateinit var defaultState: StateDefinition
 
@@ -130,11 +136,24 @@ class StateCollection internal constructor() {
         hasDefault = true
     }
 
-    internal fun get(): Pair<Set<StateDefinition>, StateDefinition> {
+    fun config(setup: RoutingConfig.() -> Unit) {
+        routingConfig.setup()
+    }
+
+    internal fun getStateDefinitions(): Pair<Set<StateDefinition>, StateDefinition> {
         if (!hasDefault) {
             throw IllegalStateException("No default state set in routing setup")
         }
         return Pair(states, defaultState)
     }
+
+    internal fun getRoutingConfig() = routingConfig
+
+}
+
+@InitDsl
+class RoutingConfig {
+
+    var noHashMode = false
 
 }
