@@ -60,6 +60,9 @@ internal object Router {
         window.onhashchange = {
             refresh()
         }
+        window.onpopstate = {
+            refresh()
+        }
     }
 
     private fun convertToState(it: StateDefinition): State {
