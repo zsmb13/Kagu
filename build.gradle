@@ -1,7 +1,7 @@
 buildscript {
     ext.kotlin_version = '1.2.40'
     ext.koinjs_version = '0.9.1'
-    ext.kagu_version = '0.2.4'
+    ext.kagu_version = '0.2.5'
     ext.webDir = "${rootDir}/web"
     ext.devMode = project.hasProperty('devMode') ? devMode.toBoolean() : true
 }
