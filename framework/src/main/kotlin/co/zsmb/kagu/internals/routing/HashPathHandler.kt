@@ -4,12 +4,6 @@ import kotlin.browser.window
 
 class HashPathHandler : PathHandler {
 
-    init {
-        window.onhashchange = {
-            Router.refresh()
-        }
-    }
-
     override fun getRoute(): String = window.location.hash.substring(1)
 
     override fun setHash(fragment: String) {

@@ -4,6 +4,7 @@ import co.zsmb.kagu.core.Component
 import co.zsmb.kagu.core.init.RoutingConfig
 import co.zsmb.kagu.core.init.StateDefinition
 import co.zsmb.kagu.internals.dom.DomInjector
+import kotlin.browser.window
 
 internal object Router {
 
@@ -49,13 +50,16 @@ internal object Router {
         DomInjector.injectAppComponentAsync(route, state.component)
     }
 
-
     fun init(states: Set<StateDefinition>, defaultState: StateDefinition, routingConfig: RoutingConfig) {
         Router.states += states.map(this::convertToState)
         Router.defaultState = State(defaultState)
 
         noHashMode = routingConfig.noHashMode
         pathHandler = if (noHashMode) NoHashPathHandler() else HashPathHandler()
+
+        window.onhashchange = {
+            refresh()
+        }
     }
 
     private fun convertToState(it: StateDefinition): State {
