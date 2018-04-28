@@ -27,11 +27,12 @@ class NoHashPathHandler : PathHandler {
 
         InternalLogger.d(this, "base is $base")
 
+        val pathWithoutSlashes = path.trim('/')
+
         val newPath =
-                if (path == "index.html") {
+                if (path == "index.html" || pathWithoutSlashes.isBlank()) {
                     "$base/"
                 } else {
-                    val pathWithoutSlashes = path.trim('/')
                     "$base/$pathWithoutSlashes/"
                 }
 
