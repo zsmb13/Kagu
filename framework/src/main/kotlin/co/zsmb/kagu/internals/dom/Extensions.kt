@@ -67,7 +67,9 @@ internal fun Node.visitBreadthFirst(action: (Node) -> Unit) {
 
 internal fun Node.replaceWith(replacement: Node) {
     this as Element
-    this.replaceWith(replacement)
+
+    val parent = this.parentNode ?: return
+    parent.replaceChild(replacement, this)
 }
 
 internal fun Node.replaceWithAndKeepAttrs(replacement: HTMLElement) {
@@ -76,7 +78,9 @@ internal fun Node.replaceWithAndKeepAttrs(replacement: HTMLElement) {
         val clonedAttr = it.cloneNode(true) as Attr
         replacement.attributes.setNamedItem(clonedAttr)
     }
-    this.replaceWith(replacement)
+
+    val parent = this.parentNode ?: return
+    parent.replaceChild(replacement, this)
 }
 
 internal fun NamedNodeMap.forEach(action: (Attr) -> Unit) {
